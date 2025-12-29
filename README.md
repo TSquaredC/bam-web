@@ -1,179 +1,40 @@
-# BAM Web Platform
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
 
-Production-grade **ReactJS website** for **BAM** — a professional talent & services collaboration platform for the Media & Entertainment ecosystem.
+## Getting Started
 
-This repository contains the **frontend web application** for the BAM platform.
-
----
-
-## 📌 Project Overview
-
-BAM enables producers, creators, agencies, brands, and event companies to:
-
-- Discover verified talent & service providers
-- Showcase portfolios and projects
-- Post requirements and manage collaborations
-
-This web application serves as the **primary user interface** for the platform.
-
----
-
-## 🧭 Scope (Website – Phase 1)
-
-### Included
-
-- Marketing & landing pages
-- Authentication UI (Talent / Customer)
-- Talent profiles & portfolios
-- Project / requirement listing UI
-- Dashboard interfaces
-- Inbox & messaging UI
-- Responsive design (desktop-first)
-
-### Excluded
-
-- Mobile applications
-- Payments & monetisation
-- AI-based features
-- Backend services
-
----
-
-## 🏗️ Tech Stack
-
-- **ReactJS** (Vite)
-- **JavaScript (ES6+)**
-- **Tailwind CSS**
-- **React Router DOM**
-- **Axios**
-- **ESLint & Prettier**
-
----
-
-## 📁 Project Structure
-
-```text
-src/
-│
-├── assets/      # Static assets (images, icons)
-├── components/  # Reusable UI components
-├── pages/       # Route-level pages
-├── sections/    # Landing & marketing sections
-├── layouts/     # App & page layouts
-├── routes/      # Route configuration
-├── services/    # API service layer
-├── hooks/       # Custom React hooks
-├── utils/       # Helper utilities
-├── constants/   # App-wide constants
-├── styles/      # Global styles
-│
-├── App.jsx
-├── main.jsx
-└── index.css
-```
-
----
-
-## 🔐 Environment Configuration
-
-Create a `.env` file in the project root:
-
-```env
-VITE_API_BASE_URL=http://localhost:8000
-```
-
----
-
-## ⚙️ Local Development
-
-### 1. Clone the repository
-
-```bash
-git clone https://github.com/<org-or-username>/bam-web.git
-cd bam-web
-```
-
-### 2. Install dependencies
-
-```bash
-npm install
-```
-
-### 3. Start the development server
+First, run the development server:
 
 ```bash
 npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-The app will be available at:
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-```text
-http://localhost:5173
-```
+You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
 
----
+[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
 
-## 📦 Production Build
+The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
 
-Create an optimized production build:
+This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-```bash
-npm run build
-```
+## Learn More
 
-Preview the production build locally:
+To learn more about Next.js, take a look at the following resources:
 
-```bash
-npm run preview
-```
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
 
----
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## 🧪 Code Quality & Standards
+## Deploy on Vercel
 
-- ESLint for linting
-- Prettier for formatting
-- Component-driven architecture
-- Feature-based separation
-- Environment-based configuration
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
----
-
-## 🌍 Deployment
-
-This application is production-ready and can be deployed on:
-
-- Vercel
-- Netlify
-- AWS S3 + CloudFront
-- GCP Firebase Hosting
-
----
-
-## 🌱 Branching Strategy
-
-- `main` → Production
-- `dev` → Active development
-- `feature/*` → Feature branches
-- `hotfix/*` → Production fixes
-
----
-
-## 🔒 Security Notes
-
-- No secrets committed to the repository
-- Environment variables managed per environment
-- API access controlled via backend authentication
-
----
-
-## 📄 License
-
-This project is proprietary and confidential.  
-Unauthorized copying, distribution, or use is prohibited.
-
----
-
-## 👥 Maintained By
-
-BAM Engineering Team
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.

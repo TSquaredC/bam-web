@@ -2,7 +2,7 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #970206;
 }
 
 @theme inline {
@@ -10,6 +10,8 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --breakpoint-5xl: 90rem;
+  --breakpoint-6xl: 100rem;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -22,5 +24,323 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Cabinet Grotesk", sans-serif;
+}
+
+@layer base {
+  h1 {
+    @apply 5xl:text-6xl 2xl:text-5xl lg:text-4xl md:text-3xl text-2xl md:tracking-[0px] tracking-[-0.96px] leading-tight xl:leading-tight font-semibold 2xl:leading-tight;
+  }
+
+  h2 {
+    @apply 5xl:text-5xl 2xl:text-4xl lg:text-3xl md:text-2xl text-xl md:tracking-[0px] tracking-[-0.96px] leading-tight xl:leading-tight font-semibold 2xl:leading-tight;
+  }
+
+  h3 {
+    @apply 5xl:text-4xl 2xl:text-3xl lg:text-2xl md:text-xl text-lg tracking-[0.8px] leading-tight xl:leading-tight font-semibold 2xl:leading-tight;
+  }
+
+  h4 {
+    @apply 5xl:text-3xl 2xl:text-2xl lg:text-xl md:text-lg text-base font-semibold xl:leading-tight md:leading-tight leading-tight;
+  }
+
+  h5 {
+    @apply 5xl:text-2xl 2xl:text-xl lg:text-lg md:text-base text-sm font-medium leading-tight;
+  }
+
+  h6 {
+    @apply 6xl:text-xl 2xl:text-lg lg:text-base md:text-sm text-xs font-medium leading-[110%];
+  }
+
+  p {
+    @apply 6xl:text-xl 2xl:text-lg lg:text-base text-sm leading-[150%] tracking-wider font-thin;
+  }
+}
+
+@layer components {
+  .section-width {
+    @apply 2xl:max-w-screen-2xl md:w-11/12 mx-auto max-md:mx-5 items-center;
+  }
+
+  .section-width2 {
+    @apply 2xl:max-w-screen-xl md:w-11/12 mx-auto max-md:mx-5 items-center;
+  }
+
+  .max-width-responsive {
+    @apply w-full max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl mx-auto;
+  }
+
+  .section-padding {
+    @apply py-14 md:py-20 lg:py-24;
+  }
+
+  .padding-top {
+    @apply pt-14 md:pt-20 lg:pt-24;
+  }
+
+  .padding-bottom {
+    @apply pb-14 md:pb-20 lg:pb-24;
+  }
+
+  .margin-top {
+    @apply mt-14 md:mt-20 lg:mt-24;
+  }
+
+  .margin-bottom {
+    @apply mb-14 md:mb-20 lg:mb-24;
+  }
+
+  .btn-primary {
+    @apply md:py-3 md:px-6 px-4 py-2 text-[#fefefe] font-normal rounded-lg bg-gradient-to-b from-[#117DFA] to-[#0A4A94] 2xl:text-xl xl:text-lg text-base capitalize text-center cursor-pointer;
+  }
+
+  .btn-secondary {
+    @apply py-3 px-6 bg-white text-[#117DFA] font-medium rounded-full border-2 border-white text-base;
+  }
+
+  .btn-black {
+    @apply bg-black text-white rounded-full py-1.5 px-6 w-fit text-sm md:text-base 2xl:text-lg;
+  }
+
+  .sub-heading {
+    @apply text-[#C31F3F] 2xl:text-2xl lg:text-base text-sm xl:text-lg font-normal rounded-lg;
+  }
+
+  .home-hero-bg {
+    background-image: url("../assets/images/home/mainBg.png");
+  }
+
+  .find-hero-title {
+    color: var(--Colors-Secondary-Ivory, #fefefe);
+    text-align: left;
+    leading-trim: both;
+    text-edge: cap;
+    text-shadow: -3px 3px 0 var(--Colors-Secondary-Eerie-black, #1e1e1e);
+    font-family: "Cabinet Grotesk", sans-serif;
+    font-style: normal;
+    font-weight: 900;
+    line-height: 0.8;
+    letter-spacing: -0.96px;
+    text-transform: capitalize;
+  }
+
+  .find-hero-copy {
+    color: var(--Colors-Neutrals-Dark-grey-50, #a1a2a3);
+    font-family: Onest, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 113%;
+    letter-spacing: -0.96px;
+  }
+
+  .find-hero-cta {
+    display: flex;
+    width: 342px;
+    height: 56px;
+    padding: 16px 24px;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    border-radius: var(--Spacing-3, 12px);
+    background: var(--Colors-Secondary-Ivory, #fefefe);
+    box-shadow: -3px 6px 0 0 var(--Colors-Primary-Crimson, #bd0308);
+    font-size: 20px;
+    font-weight: 700;
+    color: #0a0a0a;
+  }
+
+  @media (max-width: 767px) {
+    .home-hero-bg {
+      background-image: url("../assets/images/home/smallbg.png");
+    }
+
+    .find-hero-cta {
+      display: flex;
+      width: 171.205px;
+      height: 28.034px;
+      padding: 8.01px 12.014px;
+      justify-content: center;
+      align-items: center;
+      gap: 8.01px;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+  }
+
+  .dotted-bg {
+    background-color: #0b0b0b;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.18) 1px, transparent 1px);
+    background-size: 16px 16px;
+  }
+
+  .about-intro-title {
+    color: #ffffff;
+    text-align: center;
+    leading-trim: both;
+    text-edge: cap;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: #000;
+    font-family: "Cabinet Grotesk Variable", sans-serif;
+    font-style: normal;
+    font-weight: 800;
+    line-height: 132%;
+    letter-spacing: -0.96px;
+  }
+
+/* --- CONFIGURATION --- */
+:root {
+  --anim-duration: 4.2s;
+}
+
+/* 1. TYPING EFFECT */
+.typing-text {
+  overflow: hidden;
+  border-right: 2px solid black;
+  white-space: nowrap;
+  animation: typing 0.8s steps(20, end) forwards, blink-caret 0.75s step-end infinite;
+  display: inline-block;
+  width: 0;
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; border-color: transparent; }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent; }
+  50% { border-color: black; }
+}
+
+/* 2. CURSOR MOVEMENT */
+.discover-cursor {
+  animation: cursor-flow var(--anim-duration) cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  transform-origin: top left;
+}
+
+@keyframes cursor-flow {
+  0% {
+    opacity: 0;
+    transform: translate(var(--cursor-start-x), var(--cursor-start-y)) scale(0.6);
+  }
+  15% { opacity: 1; }
+  35% { transform: translate(0, 0) scale(1); } /* Arrive at button */
+  45% { transform: translate(0, 0) scale(0.85); } /* Click Press */
+  50% { transform: translate(0, 0) scale(1); } /* Click Release */
+  60% { opacity: 1; }
+  80% { opacity: 0; transform: translate(0, 50px) scale(1); } /* Move away */
+  100% { opacity: 0; }
+}
+
+/* 3. SEARCH BUTTON CLICK RESPONSE */
+.discover-search {
+  animation: search-click var(--anim-duration) ease-in-out infinite;
+}
+
+.discover-searchgroup {
+  animation: searchbar-resize var(--anim-duration) ease-in-out infinite;
+  transform-origin: center;
+  transition: transform 0.6s ease;
+}
+
+.discover-searchgroup--condensed {
+  animation: none;
+  transform: scale(0.8);
+}
+
+.discover-searchbar {
+  transform-origin: center;
+}
+
+@keyframes search-click {
+  0%, 48% { transform: scale(1); box-shadow: none; }
+  56% { transform: scale(0.92); box-shadow: 0 0 0 6px rgba(189, 3, 8, 0.25); }
+  59%, 100% { transform: scale(1); box-shadow: none; }
+}
+
+/* 4. SEARCH BAR SLIDE UP */
+.search-container {
+  animation: search-container-move var(--anim-duration) ease-in-out infinite;
+}
+
+.search-container--fixed {
+  animation: none;
+  transform: translateY(-230px);
+  transition: transform 0.6s ease;
+}
+
+@keyframes search-container-move {
+  0%, 48% { transform: translateY(0); }
+  55%, 90% { transform: translateY(-230px); } /* Move up to make room for cards */
+  100% { transform: translateY(0); }
+}
+
+@keyframes searchbar-resize {
+  0%, 48% { transform: scale(1); }
+  55%, 90% { transform: scale(0.85); }
+  100% { transform: scale(1); }
+}
+
+/* 5. RESULTS GRID APPEARANCE */
+.results-grid {
+  animation: results-appear var(--anim-duration) ease-in-out infinite;
+}
+
+  @keyframes results-appear {
+    0%, 60% { 
+      opacity: 0; 
+      transform: translateY(100px); /* Start below */
+    }
+  66%, 90% { 
+    opacity: 1; 
+    transform: translateY(0); /* Slide up into view */
+  }
+    100% { 
+      opacity: 0; 
+      transform: translateY(100px); 
+    }
+  }
+
+  .bam-heart {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    transform: rotate(-45deg);
+    border: 1.5px solid rgba(255, 255, 255, 0.7);
+    border-radius: 2px;
+    background: transparent;
+    transition: background 220ms ease, border-color 220ms ease;
+  }
+
+  .bam-heart::before,
+  .bam-heart::after {
+    content: "";
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border: 1.5px solid rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    background: transparent;
+  }
+
+  .bam-heart::before {
+    top: -7px;
+    left: 0;
+  }
+
+  .bam-heart::after {
+    left: 7px;
+    top: 0;
+  }
+
+  .bam-heart--filled {
+    background: #e11d48;
+    border-color: #e11d48;
+  }
+
+  .bam-heart--filled::before,
+  .bam-heart--filled::after {
+    background: #e11d48;
+    border-color: #e11d48;
+  }
 }

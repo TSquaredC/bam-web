@@ -34,12 +34,6 @@ type ApiRouteConfig = {
     maxDuration?: number
   }
 }
-
-
-
-
-
-
 // Validate ../../src/pages/index.tsx
 {
   type __IsExpected<Specific extends PagesPageConfig> = Specific

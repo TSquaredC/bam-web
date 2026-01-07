@@ -1,9 +1,18 @@
 import { useEffect, useRef, useState } from 'react';
+import type { CSSProperties } from 'react';
 import { IoMicOutline } from 'react-icons/io5';
 import { IoIosSearch } from 'react-icons/io';
-import vertical1 from '../../../assets/images/home/vertical1.jpg';
+import { vertical1 } from '../../../assets/images';
 // Mock Data for the cards shown in the video
-const ARTISTS = [
+type Artist = {
+  name: string;
+  song: string;
+  color: string;
+  img: string | { src: string };
+  active?: boolean;
+};
+
+const ARTISTS: Artist[] = [
   {
     name: 'Jaxon Porter',
     song: 'Riff Fusion',
@@ -37,11 +46,16 @@ const ARTISTS = [
   },
 ];
 
+type CursorStyle = CSSProperties & {
+  '--cursor-start-x'?: string;
+  '--cursor-start-y'?: string;
+};
+
 const WhoIsBamForDiscoverCard = () => {
-  const cardRef = useRef(null);
-  const searchButtonRef = useRef(null);
-  const cursorRef = useRef(null);
-  const [cursorStyle, setCursorStyle] = useState({});
+  const cardRef = useRef<HTMLDivElement | null>(null);
+  const searchButtonRef = useRef<HTMLDivElement | null>(null);
+  const cursorRef = useRef<HTMLSpanElement | null>(null);
+  const [cursorStyle, setCursorStyle] = useState<CursorStyle>({});
   const [cursorReady, setCursorReady] = useState(false);
   const initialIndex = Math.max(
     0,
@@ -53,7 +67,7 @@ const WhoIsBamForDiscoverCard = () => {
   // State for the typing effect
   const [placeholderText, setPlaceholderText] = useState('Ask What You Want');
   const [isTyping, setIsTyping] = useState(false);
-  const getImageSrc = (image) => (typeof image === 'string' ? image : image?.src);
+  const getImageSrc = (image: Artist['img']) => (typeof image === 'string' ? image : image?.src);
   const [hasSearched, setHasSearched] = useState(false);
 
   // 1. Cursor Position Logic (From your original code)
@@ -129,7 +143,7 @@ const WhoIsBamForDiscoverCard = () => {
     setTimeout(() => setIsAutoScrolling(true), 12000);
   };
 
-  const getCardPosition = (index) => {
+  const getCardPosition = (index: number): CSSProperties => {
     const totalCards = ARTISTS.length;
     const diff = (index - currentIndex + totalCards) % totalCards;
 

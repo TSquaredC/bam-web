@@ -1,4 +1,4 @@
-import comingSoonImg from '../../../assets/icons/comingsoon.svg';
+import { comingSoonImg } from '../../../assets/images';
 import Image from 'next/image';
 
 const HomePage = () => {

@@ -6,6 +6,19 @@ import styles from './ScrollReveal.module.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
+type ScrollRevealProps = {
+  children: React.ReactNode;
+  scrollContainerRef?: React.RefObject<HTMLElement> | null;
+  enableBlur?: boolean;
+  baseOpacity?: number;
+  baseRotation?: number;
+  blurStrength?: number;
+  containerClassName?: string;
+  textClassName?: string;
+  rotationEnd?: string;
+  wordAnimationEnd?: string;
+};
+
 const ScrollReveal = ({
   children,
   scrollContainerRef,
@@ -17,11 +30,11 @@ const ScrollReveal = ({
   textClassName = '',
   rotationEnd = '+=500%',
   wordAnimationEnd = '+=65%',
-}) => {
-  const containerRef = useRef(null);
+}: ScrollRevealProps) => {
+  const containerRef = useRef<HTMLHeadingElement | null>(null);
 
   const splitText = useMemo(() => {
-    const wrapWords = (text, keyPrefix) => {
+    const wrapWords = (text: string | number, keyPrefix: string) => {
       return String(text)
         .split(/(\s+)/)
         .map((word, index) => {
@@ -34,7 +47,7 @@ const ScrollReveal = ({
         });
     };
 
-    const processNode = (node, keyPrefix) => {
+    const processNode = (node: React.ReactNode, keyPrefix: string): React.ReactNode => {
       if (node === null || node === undefined || typeof node === 'boolean') return null;
       if (typeof node === 'string' || typeof node === 'number') return wrapWords(node, keyPrefix);
 

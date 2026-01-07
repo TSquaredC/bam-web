@@ -1,4 +1,10 @@
-const WhoIsBamForTitleCard = ({ scrollProgress = 0 }) => {
+import type { CSSProperties } from 'react';
+
+type WhoIsBamForTitleCardProps = {
+  scrollProgress?: number;
+};
+
+const WhoIsBamForTitleCard = ({ scrollProgress = 0 }: WhoIsBamForTitleCardProps) => {
   const clampedProgress = Math.min(Math.max(scrollProgress, 0), 1);
 
   // Slower progress for the scale animation
@@ -8,9 +14,11 @@ const WhoIsBamForTitleCard = ({ scrollProgress = 0 }) => {
     <div style={{ height: '100vh' }}>
       <div
         className="sticky top-0 flex h-screen w-screen items-center justify-center overflow-hidden bg-[#BD0308] px-8 py-12"
-        style={{
-          '--title-progress': clampedProgress,
-        }}
+        style={
+          {
+            '--title-progress': clampedProgress,
+          } as CSSProperties
+        }
       >
         {/* Background floating cards */}
         <div className="pointer-events-none absolute inset-0 hidden 2xl:block">
@@ -18,7 +26,7 @@ const WhoIsBamForTitleCard = ({ scrollProgress = 0 }) => {
           <div
             className="absolute -left-20 top-0 h-32 w-[350px] rounded-b-xl bg-[#970206] shadow-[0_12px_28px_rgba(0,0,0,0.2)] flex items-end justify-end transition-all duration-[2500ms] ease-out"
             style={{
-              transform: `translateX(calc(${clampedProgress} * -500px)) translateY(calc(${clampedProgress} * -200px))`,
+              transform: `translateX(calc(${clampedProgress} * -00px)) translateY(calc(${clampedProgress} * -500px))`,
               opacity: Math.max(0, 1 - clampedProgress * 10),
             }}
           >
@@ -31,7 +39,7 @@ const WhoIsBamForTitleCard = ({ scrollProgress = 0 }) => {
           <div
             className="absolute right-[30%] top-0 h-32 w-[650px] rounded-b-xl bg-[#970206] p-4 shadow-[0_12px_28px_rgba(0,0,0,0.2)] flex items-end justify-end transition-all duration-[2500ms] ease-out"
             style={{
-              transform: `translateY(calc(${clampedProgress} * -300px)) scale(${
+              transform: `translateY(calc(${clampedProgress} * -100px)) scale(${
                 1 - clampedProgress * 0.4
               })`,
               opacity: Math.max(0, 1 - clampedProgress * 1.5),

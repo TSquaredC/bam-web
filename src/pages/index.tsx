@@ -19,7 +19,7 @@ const Index = () => {
             <Home />
           </div>
         </div>
-        <section className="dotted-bg py-32">
+        <section className="dotted-bg pt-32">
           <div className="w-full">
             <AboutIntro />
             <div id="about-gallery">

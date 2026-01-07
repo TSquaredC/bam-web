@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import type { CSSProperties } from 'react';
 import WhoIsBamForDoersCard from './WhoIsBamForDoersCard';
 import WhoIsBamForConnectCard from './WhoIsBamForConnectCard';
 import WhoIsBamForDiscoverCard from './WhoIsBamForDiscoverCard';
@@ -7,9 +8,23 @@ import WhoIsBamForPortfolioCard from './WhoIsBamForPortfolioCard';
 import WhoIsBamForShortlistCard from './WhoIsBamForShortlistCard';
 import WhoIsBamForTitleCard from './WhoIsBamForTitleCard';
 
-const cards = [];
+type Card = {
+  title: string;
+  subtitle: string;
+  theme: string;
+  image?: boolean;
+  gallery?: boolean;
+  search?: boolean;
+  montage?: boolean;
+};
 
-const CardPanel = ({ card }) => (
+const cards: Card[] = [];
+
+type CardPanelProps = {
+  card: Card;
+};
+
+const CardPanel = ({ card }: CardPanelProps) => (
   <div
     className={`flex h-screen w-screen shrink-0 flex-col justify-between px-12 py-16 ${card.theme}`}
   >
@@ -51,8 +66,8 @@ const CardPanel = ({ card }) => (
 );
 
 const WhoIsBamFor = () => {
-  const sectionRef = useRef(null);
-  const trackRef = useRef(null);
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const trackRef = useRef<HTMLDivElement | null>(null);
   const hasEnteredFromAboveRef = useRef(false);
   const lastScrollYRef = useRef(0);
   const [scrollLength, setScrollLength] = useState(0);
@@ -126,7 +141,7 @@ const WhoIsBamFor = () => {
     <section
       ref={sectionRef}
       className="relative bg-[#BD0308]"
-      style={{ '--title-progress': 0 }}
+      style={{ '--title-progress': 0 } as CSSProperties}
     >
       <div className="sticky top-0 overflow-hidden">
         <div ref={trackRef} className="flex w-max items-stretch">

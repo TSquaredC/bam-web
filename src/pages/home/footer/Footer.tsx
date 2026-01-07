@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import bamWhite from '../../../assets/icons/bamwhite.svg';
+import { bamWhite } from '../../../assets/images';
 import { FaXTwitter } from 'react-icons/fa6';
 import { FaLinkedin } from 'react-icons/fa';
 import { FaFacebook } from 'react-icons/fa';

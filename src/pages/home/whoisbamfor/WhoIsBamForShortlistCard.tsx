@@ -1,23 +1,38 @@
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import vertical1 from '../../../assets/images/home/vertical1.jpg';
-import vertical2 from '../../../assets/images/home/vertical2.jpg';
-import vertical3 from '../../../assets/images/home/vertical3.jpg';
-import vertical4 from '../../../assets/images/home/vertical4.jpg';
-import vertical5 from '../../../assets/images/home/vertical5.jpg';
-import vertical6 from '../../../assets/images/home/vertical6.jpg';
-import vertical7 from '../../../assets/images/home/vertical7.jpg';
-import vertical8 from '../../../assets/images/home/vertical8.jpg';
-import vertical9 from '../../../assets/images/home/vertical9.jpg';
-import vertical10 from '../../../assets/images/home/vertical10.jpg';
-import RedBam from '../../../assets/icons/RedBam.svg';
+import type { StaticImageData } from 'next/image';
+import {
+  RedBam,
+  vertical1,
+  vertical2,
+  vertical3,
+  vertical4,
+  vertical5,
+  vertical6,
+  vertical7,
+  vertical8,
+  vertical9,
+  vertical10,
+} from '../../../assets/images';
 import Image from 'next/image';
 
-const ParallaxColumn = ({ cards, direction = 'up', duration = 30 }) => {
+type ParallaxCard = {
+  title: string;
+  image: StaticImageData;
+  accentColor: string;
+};
+
+type ParallaxColumnProps = {
+  cards: ParallaxCard[];
+  direction?: 'up' | 'down';
+  duration?: number;
+};
+
+const ParallaxColumn = ({ cards, direction = 'up', duration = 30 }: ParallaxColumnProps) => {
   const loopCards = [...cards, ...cards];
   const translate = direction === 'up' ? ['0%', '-50%'] : ['-50%', '0%'];
 
-  const [activeHeart, setActiveHeart] = useState(null);
+  const [activeHeart, setActiveHeart] = useState<number | null>(null);
 
   useEffect(() => {
     const interval = setInterval(() => {

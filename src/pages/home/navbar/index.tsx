@@ -1,5 +1,5 @@
 import React from 'react';
-import bamLogo from '../../../assets/icons/RedBam.svg';
+import { RedBam as bamLogo } from '../../../assets/images';
 import Image from 'next/image';
 
 const Navbar = () => {
@@ -11,7 +11,7 @@ const Navbar = () => {
         </div>
 
         <button className="rounded-[12px] bg-white px-5 py-2 text-xs font-[500] text-black">
-          Login as User
+          Coming Soon
         </button>
       </div>
     </nav>

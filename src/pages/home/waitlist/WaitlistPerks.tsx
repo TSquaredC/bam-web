@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import Image from 'next/image';
-import waitlistBg from '../../../assets/images/home/waitlist.png';
-import waitlistsmall from '../../../assets/images/home/waitlistsmall.png';
+import { waitlistBg, waitlistsmall } from '../../../assets/images';
 
 const WaitlistPerks = () => {
   const [activeTab, setActiveTab] = useState('talent');

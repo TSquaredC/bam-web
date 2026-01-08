@@ -1,17 +1,19 @@
 const WhoIsBamForDoersCard = () => {
   return (
-    <div className="flex h-screen w-screen shrink-0 flex-col justify-center bg-[#BD0308] px-6 xl:px-12 py-16">
-      <div className="max-w-3xl">
-        <h3 className="text-[52px] xl:text-[160px] font-extrabold uppercase leading-[0.95] tracking-tight text-[#1a1a1a]">
-          THE
-          <br />
-          DOERS
-        </h3>
-        <p className="mt-1 xl:mt-4 text-[14px] xl:text-[48px] font-semibold text-white">
-          Show your work. Get the gig.
-        </p>
+    <section className="flex h-screen min-h-screen w-screen items-center justify-center bg-[#BD0308] text-white">
+      <div className="flex w-full flex-col items-start px-3">
+        <div className="w-full xl:ml-40 ml-10">
+          <h3 className="text-[52px] font-[900] uppercase leading-[0.75] tracking-tighter text-[#1a1a1a] xl:text-[164px]">
+            THE
+            <br />
+            DOERS
+          </h3>
+          <p className="bam-connect-copy mt-3 text-[24px] md:text-[40px]">
+            Show your work. Get the gig.
+          </p>
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 

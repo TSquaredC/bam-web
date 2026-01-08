@@ -1,9 +1,13 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { waitlistBg, waitlistsmall } from '../../../assets/images';
+import { waitlistCategoryGroups } from "../../../data/waitlistCategories";
+
+const waitlistCategoryItems = waitlistCategoryGroups.flatMap((group) => group.items);
 
 const WaitlistPerks = () => {
   const [activeTab, setActiveTab] = useState('talent');
+  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
 
   return (
     <section className="dotted-bg relative py-20 text-white sm:py-28 ">
@@ -95,15 +99,25 @@ const WaitlistPerks = () => {
                     <select
                       className="w-full appearance-none bg-transparent text-sm text-white outline-none"
                       defaultValue=""
+                      onFocus={() => setIsCategoryOpen(true)}
+                      onBlur={() => setIsCategoryOpen(false)}
+                      onChange={() => setIsCategoryOpen(false)}
                     >
-                      <option value="artist">Artist</option>
-                      <option value="producer">Producer</option>
-                      <option value="brand">Brand</option>
-                      <option value="fan">Fan</option>
+                      {waitlistCategoryItems.map((item) => (
+                        <option key={item} value={item}>
+                          {item}
+                        </option>
+                      ))}
                     </select>
-                    <span className="ml-2 text-white/60" aria-hidden>
-                      v
-                    </span>
+                    <svg
+                      aria-hidden
+                      viewBox="0 0 24 24"
+                      className={`ml-2 h-5 w-5 text-white transition-transform ${
+                        isCategoryOpen ? 'rotate-180' : ''
+                      }`}
+                    >
+                      <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" strokeWidth="2" />
+                    </svg>
                   </div>
                 </label>
 

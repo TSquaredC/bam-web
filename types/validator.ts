@@ -34,22 +34,6 @@ type ApiRouteConfig = {
     maxDuration?: number
   }
 }
-// Validate ../../src/pages/index.tsx
-{
-  type __IsExpected<Specific extends PagesPageConfig> = Specific
-  const handler = {} as typeof import("../../src/pages/index.js")
-  type __Check = __IsExpected<typeof handler>
-  // @ts-ignore
-  type __Unused = __Check
-}
 
-// Validate ../../src/pages/api/hello.ts
-{
-  type __IsExpected<Specific extends ApiRouteConfig> = Specific
-  const handler = {} as typeof import("../../src/pages/api/hello.js")
-  type __Check = __IsExpected<typeof handler>
-  // @ts-ignore
-  type __Unused = __Check
-}
 
 

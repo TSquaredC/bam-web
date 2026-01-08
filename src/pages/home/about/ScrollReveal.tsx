@@ -51,7 +51,7 @@ const ScrollReveal = ({
       if (node === null || node === undefined || typeof node === 'boolean') return null;
       if (typeof node === 'string' || typeof node === 'number') return wrapWords(node, keyPrefix);
 
-      if (React.isValidElement(node)) {
+      if (React.isValidElement<{ children?: React.ReactNode }>(node)) {
         const childNodes = React.Children.toArray(node.props.children);
         const processed = childNodes.flatMap((child, index) =>
           processNode(child, `${keyPrefix}-${index}`),

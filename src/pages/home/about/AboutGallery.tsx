@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { GoArrowLeft, GoArrowRight } from 'react-icons/go';
+// Replace these with your actual imports
 import { scroll1, scroll2 } from '../../../assets/images';
 
 const galleryData = [
@@ -19,45 +20,49 @@ const galleryData = [
     description: 'People who perform live or on-set',
   },
   {
-    src: scroll1, // Reusing for demo
+    src: scroll1,
     alt: 'On stage',
     title: 'Event Managers',
     description: 'Orchestrating the perfect show',
   },
   {
-    src: scroll2, // Reusing for demo
+    src: scroll2,
     alt: 'Camera rig',
     title: 'Cinematographers',
     description: 'Capturing the visual essence',
   },
   {
-    src: scroll1, // Reusing for demo
+    src: scroll1,
     alt: 'Backstage',
     title: 'Production Crew',
     description: 'The backbone of every event',
   },
+  {
+    src: scroll2,
+    alt: 'On stage',
+    title: 'Event Managers',
+    description: 'Orchestrating the perfect show',
+  },
 ];
 
 const AboutGallery = () => {
-  const [activeIndex, setActiveIndex] = useState(2); // Start in the middle
+  const [activeIndex, setActiveIndex] = useState(2);
   const [isInView, setIsInView] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(0);
   const sectionRef = useRef(null);
 
-  // Scroll Trigger Logic (30% visibility)
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsInView(entry.isIntersecting);
-      },
-      {
-        threshold: 0.3, // Trigger when 30% is visible
-      },
-    );
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => setIsInView(entry.isIntersecting), {
+      threshold: 0.3,
+    });
+    if (sectionRef.current) observer.observe(sectionRef.current);
     return () => {
       if (sectionRef.current) observer.unobserve(sectionRef.current);
     };
@@ -71,129 +76,120 @@ const AboutGallery = () => {
     setActiveIndex((prev) => (prev - 1 + galleryData.length) % galleryData.length);
   };
 
-  // Calculate styles to create the "Arc" / Circular motion
-  const getCardStyle = (distance) => {
-    // We want to visually center the active item.
-    // In a "carousel", we usually shift items relative to the center.
-    // Let's create a "virtual" position for animation
+  const getCardStyle = (index: number): React.CSSProperties => {
+    const total = galleryData.length;
+
+    // Circular distance calculation
+    let distance = (index - activeIndex + total) % total;
+    if (distance > total / 2) distance -= total;
 
     const isActive = distance === 0;
+    const isMobile = windowWidth < 768;
+    const absDistance = Math.abs(distance);
 
-    // Base transforms
-    let xTranslate = 0;
-    let yTranslate = 0;
-    let rotate = 0;
-    let zIndex = 0;
-    let opacity = 1;
-    let scale = 1;
+    // Configuration
+    const rotationAngle = isMobile ? 5 : 10;
 
-    // Configuration for the Arc
-    const xGap = 500; // Horizontal spacing (adjust for mobile/desktop)
-    const yDrop = 40; // How much side items drop down (creating the arc)
-    const rotationAngle = 8; // Degrees of rotation
+    // --- GAP CONFIGURATION (X-AXIS) ---
+    const level1Gap = isMobile ? 270 : 500;
+    const level2Gap = isMobile ? 260 : 920;
 
-    // Calculate relative position (simple slider logic)
-    // We limit the visible items to strictly surrounding ones for the effect
-    if (isActive) {
-      xTranslate = 0;
-      yTranslate = 0;
-      rotate = 0;
-      zIndex = 50;
-      scale = 1.1;
-    } else if (distance === -1) {
-      // Immediate Left
-      xTranslate = -xGap;
-      yTranslate = yDrop;
-      rotate = -rotationAngle;
-      zIndex = 40;
-      scale = 0.9;
-    } else if (distance === 1) {
-      // Immediate Right
-      xTranslate = xGap;
-      yTranslate = yDrop;
-      rotate = rotationAngle;
-      zIndex = 40;
-      scale = 0.9;
-    } else if (distance === -2) {
-      // Far Left
-      xTranslate = -xGap * 1.8;
-      yTranslate = yDrop * 3;
-      rotate = -rotationAngle * 2;
-      zIndex = 30;
-      scale = 0.8;
-      opacity = 0.6;
-    } else if (distance === 2) {
-      // Far Right
-      xTranslate = xGap * 1.8;
-      yTranslate = yDrop * 3;
-      rotate = rotationAngle * 2;
-      zIndex = 30;
-      scale = 0.8;
-      opacity = 0.6;
+    // --- DROP CONFIGURATION (Y-AXIS) ---
+    // Level 1: Neighbors (2nd and 4th)
+    const level1Drop = isMobile ? 20 : 50;
+
+    // Level 2: Outer (1st and 5th)
+    // INCREASED THIS VALUE: This pushes the outer cards significantly lower
+    const level2Drop = isMobile ? 40 : 160;
+
+    const visibleLimit = isMobile ? 1 : 2;
+    const isVisible = absDistance <= visibleLimit;
+
+    if (!isVisible) {
+      return {
+        transform: 'translate(-50%, -50%) scale(0)',
+        opacity: 0,
+        zIndex: 0,
+        visibility: 'hidden',
+      };
     }
 
-    // Responsive adjustments (using inline styles for logic, but could be cleaner with tailwind classes if purely static)
-    // Note: For a true robust responsive layout, you might want to adjust xGap based on window width
+    // --- CALCULATE TRANSLATE ---
+    let xTranslate = 0;
+    let yTranslate = 0;
+
+    // X-Axis Logic
+    if (absDistance === 1) {
+      xTranslate = Math.sign(distance) * level1Gap;
+    } else if (absDistance === 2) {
+      xTranslate = Math.sign(distance) * level2Gap;
+    }
+
+    // Y-Axis Logic (Vertical Drop)
+    if (absDistance === 1) {
+      yTranslate = level1Drop;
+    } else if (absDistance === 2) {
+      yTranslate = level2Drop;
+    }
+
+    const rotate = distance * rotationAngle;
+    const zIndex = 50 - absDistance * 10;
+
+    let scale = isActive ? 1.0 : 0.85;
+    if (absDistance === 2) scale = 0.7;
 
     return {
-      transform: `translateX(${xTranslate}px) translateY(${yTranslate}px) rotate(${rotate}deg) scale(${scale})`,
+      transform: `translate(calc(-50% + ${xTranslate}px), calc(-50% + ${yTranslate}px)) rotate(${rotate}deg) scale(${scale})`,
       zIndex,
-      opacity,
+      opacity: 1,
+      visibility: 'visible',
     };
   };
 
   return (
     <div
       ref={sectionRef}
-      className={`relative w-full overflow-hidden py-20 mb-32 min-h-[900px] transition-colors duration-1000 ease-in-out flex flex-col items-center justify-center ${
+      className={`relative w-full overflow-hidden py-10 md:py-20 min-h-[600px] md:min-h-[800px] transition-colors duration-1000 ease-in-out flex flex-col items-center justify-center ${
         isInView ? 'bg-[#BD0308]' : ''
       }`}
     >
-      {/* 1. Header Text (Triggered by Scroll) */}
       <div
-        className={`text-center mb-10 transition-all duration-1000 transform ${
+        className={`text-center mb-0 md:mb-16 px-4 transition-all duration-1000 transform ${
           isInView ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-10'
         }`}
       >
-        <h2 className="text-5xl md:text-8xl font-black text-white tracking-normal uppercase">
+        <h2 className="text-4xl md:text-8xl font-black text-white tracking-tighter uppercase leading-[0.9]">
           Top
           <br />
           Categories
         </h2>
       </div>
 
-      {/* 2. The Circular/Arc Gallery */}
-      <div className="relative w-full min-w-[1900px] mx-auto h-[400px] flex items-center justify-center mt-10 perspective-1000">
-        {[-2, -1, 0, 1, 2].map((distance) => {
-          const index = (activeIndex + distance + galleryData.length) % galleryData.length;
-          const image = galleryData[index];
-          const style = getCardStyle(distance);
+      <div className="relative w-full max-w-[1600px] h-[300px] md:h-[450px] flex items-center justify-center mt-4 md:mt-0 perspective-1000 mx-auto">
+        {galleryData.map((image, index) => {
+          const style = getCardStyle(index);
 
           return (
             <div
-              key={distance}
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-[transform,opacity] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] origin-bottom will-change-transform"
+              key={index}
+              className="absolute top-1/2 left-1/2 transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] origin-center will-change-transform shadow-2xl"
               style={{
                 ...style,
-                // We add the centering translation to the dynamic transform
-                transform: `translate(-50%, -50%) ${style.transform}`,
-                width: '320px', // Base width
-                height: '240px', // Base height
-                backfaceVisibility: 'hidden',
+                width: windowWidth < 768 ? '280px' : '500px',
+                height: windowWidth < 768 ? '180px' : '280px',
               }}
             >
-              <div className="relative w-[420px] h-[280px] overflow-hidden border-white/10">
+              <div className="relative w-full h-full overflow-hidden border-2 border-transparent ">
                 <Image
                   src={image.src}
                   alt={image.alt}
                   fill
                   className="object-cover"
-                  priority={distance === 0}
+                  priority={index === activeIndex}
                 />
-                {/* Overlay to darken non-active images */}
                 <div
-                  className={`absolute inset-0 bg-black/40 transition-opacity duration-300 ${
-                    distance === 0 ? 'opacity-0' : 'opacity-100'
+                  className={`absolute inset-0 bg-black/40 transition-opacity duration-500 ${
+                    index === activeIndex ? 'opacity-0' : 'opacity-100'
                   }`}
                 />
               </div>
@@ -202,34 +198,36 @@ const AboutGallery = () => {
         })}
       </div>
 
-      {/* 3. Active Item Text & Description (Updates with slide) */}
       <div
-        className={`-mt-32 text-center transition-all duration-500 ${
+        className={`relative z-50 -mt-10 text-center px-6 transition-all duration-500 ${
           isInView ? 'opacity-100' : 'opacity-0'
         }`}
       >
-        <h3 className="text-2xl font-bold text-white mb-2">{galleryData[activeIndex].title}</h3>
-        <p className="text-white/80 font-medium mb-6">{galleryData[activeIndex].description}</p>
+        <h3 className="text-base md:text-3xl font-bold text-white md:mb-2 tracking-wide">
+          {galleryData[activeIndex].title}
+        </h3>
+        <p className="text-white/80 font-medium mb-3 md:mb-8 text-xs md:text-lg max-w-lg mx-auto">
+          {galleryData[activeIndex].description}
+        </p>
 
-        <button className="px-6 py-2 rounded-full border border-white text-white uppercase text-xs tracking-widest hover:bg-white hover:text-red-600 transition-colors">
+        <button className="px-4 py-1.5 md:px-8 md:py-3 border border-white text-white uppercase text-[10px] md:text-xs font-bold tracking-widest hover:bg-white hover:text-[#BD0308] transition-colors rounded-full">
           View more
         </button>
       </div>
 
-      {/* 4. Navigation Buttons */}
-      <div className="absolute bottom-10 md:bottom-10 w-full flex justify-between px-10 md:px-32 z-50">
+      <div className="absolute -bottom-16 md:-bottom-8 w-full flex justify-between px-6 md:px-20 z-50 pointer-events-none pb-32">
         <button
           onClick={handlePrev}
-          className="p-4 rounded-full bg-red-700/80 hover:bg-white hover:text-red-600 text-white transition-all transform hover:scale-110 shadow-lg"
-          aria-label="Previous category"
+          className="pointer-events-auto p-2 md:p-4 bg-red-600 border border-white/10 text-white hover:bg-white hover:text-[#BD0308] transition-all transform hover:scale-110 shadow-lg rounded-full cursor-pointer"
+          aria-label="Previous"
         >
           <GoArrowLeft size={24} />
         </button>
 
         <button
           onClick={handleNext}
-          className="p-4 rounded-full bg-red-700/80 hover:bg-white hover:text-red-600 text-white transition-all transform hover:scale-110 shadow-lg"
-          aria-label="Next category"
+          className="pointer-events-auto p-2 md:p-4 bg-red-600 border border-white/10 text-white hover:bg-white hover:text-[#BD0308] transition-all transform hover:scale-110 shadow-lg rounded-full cursor-pointer"
+          aria-label="Next"
         >
           <GoArrowRight size={24} />
         </button>

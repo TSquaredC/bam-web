@@ -29,6 +29,9 @@ import whoisbam2 from './home/whoisbam2.png';
 import whoisbam3 from './home/whoisbam3.png';
 import whoisbam4 from './home/whoisbam4.png';
 import whoisbam5 from './home/whoisbam5.png';
+import leadscroll1 from './home/leadscroll1.png';
+import leadscroll2 from './home/leadscroll2.png';
+import leadscroll3 from './home/leadscroll3.png';
 
 export {
   bamWhite,
@@ -62,4 +65,7 @@ export {
   whoisbam3,
   whoisbam4,
   whoisbam5,
+  leadscroll1,
+  leadscroll2,
+  leadscroll3,
 };

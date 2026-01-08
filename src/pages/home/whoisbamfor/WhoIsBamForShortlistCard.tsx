@@ -1,6 +1,7 @@
-import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { motion, AnimatePresence, useInView } from 'framer-motion';
+import { useEffect, useState, useMemo, useRef } from 'react';
 import type { StaticImageData } from 'next/image';
+import { PiCubeTransparentThin } from 'react-icons/pi';
 import {
   RedBam,
   vertical1,
@@ -9,12 +10,14 @@ import {
   vertical4,
   vertical5,
   vertical6,
-  vertical7,
-  vertical8,
-  vertical9,
   vertical10,
+  leadscroll1,
+  leadscroll2,
+  leadscroll3,
 } from '../../../assets/images';
 import Image from 'next/image';
+
+// --- Types & Helper Components ---
 
 type ParallaxCard = {
   title: string;
@@ -26,37 +29,36 @@ type ParallaxColumnProps = {
   cards: ParallaxCard[];
   direction?: 'up' | 'down';
   duration?: number;
+  likedTitles: string[];
 };
 
-const ParallaxColumn = ({ cards, direction = 'up', duration = 30 }: ParallaxColumnProps) => {
+const ParallaxColumn = ({
+  cards,
+  direction = 'up',
+  duration = 30,
+  likedTitles,
+}: ParallaxColumnProps) => {
   const loopCards = [...cards, ...cards];
   const translate = direction === 'up' ? ['0%', '-50%'] : ['-50%', '0%'];
 
-  const [activeHeart, setActiveHeart] = useState<number | null>(null);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const randomIndex = Math.floor(Math.random() * loopCards.length);
-      setActiveHeart(randomIndex);
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, [loopCards.length]);
-
   return (
-    <div className="h-[320px] w-full overflow-hidden sm:h-[380px] lg:h-[440px]">
+    <div className="h-full w-full overflow-hidden">
       <motion.div
         animate={{ y: translate }}
         transition={{ duration, repeat: Infinity, ease: 'linear' }}
-        className="flex w-full flex-col gap-3"
+        className="flex w-full flex-col gap-1.5 sm:gap-3"
       >
         {loopCards.map((card, index) => {
-          const isActive = index === activeHeart;
+          const isActive = likedTitles.includes(card.title);
 
           return (
-            <div key={`${card.title}-${index}`} className="rounded-md bg-[#1B1B1B] p-1.5">
+            <div
+              key={`${card.title}-${index}`}
+              className="rounded-md bg-[#1B1B1B] p-[2px] sm:p-1.5"
+            >
               <div
-                className="relative h-[180px] w-full overflow-hidden rounded-md"
+                // Mobile: Ultra compact height
+                className="relative h-[65px] xs:h-[90px] sm:h-[180px] w-full overflow-hidden rounded-[4px] sm:rounded-md"
                 style={{
                   backgroundImage: `linear-gradient(180deg, rgba(0,0,0,0) 45%, ${card.accentColor} 100%), url(${card.image.src})`,
                   backgroundSize: 'cover',
@@ -65,7 +67,7 @@ const ParallaxColumn = ({ cards, direction = 'up', duration = 30 }: ParallaxColu
                 }}
               >
                 <span
-                  className="absolute bottom-3 left-3 inline-flex items-center rounded-md px-3 py-1 text-xs font-semibold text-white sm:text-sm"
+                  className="absolute bottom-1.5 left-1.5 inline-flex items-center rounded sm:rounded-md px-1 py-[1px] text-[5px] xs:text-[7px] sm:text-sm font-semibold text-white"
                   style={{
                     background: 'rgba(12, 12, 12, 0.4)',
                     backdropFilter: 'blur(8px)',
@@ -74,7 +76,6 @@ const ParallaxColumn = ({ cards, direction = 'up', duration = 30 }: ParallaxColu
                   {card.title}
                 </span>
 
-                {/* ❤️ HEART */}
                 <motion.span
                   key={isActive ? 'filled' : 'empty'}
                   initial={{ scale: 0.5, opacity: 0 }}
@@ -84,7 +85,7 @@ const ParallaxColumn = ({ cards, direction = 'up', duration = 30 }: ParallaxColu
                     color: isActive ? '#ff3b3b' : 'rgba(255,255,255,0.7)',
                   }}
                   transition={{ type: 'spring', stiffness: 500, damping: 15 }}
-                  className="absolute bottom-3 right-3 text-xl select-none"
+                  className="absolute bottom-1 right-1 text-[10px] xs:text-xs sm:text-xl select-none"
                 >
                   {isActive ? '♥' : '♡'}
                 </motion.span>
@@ -97,141 +98,227 @@ const ParallaxColumn = ({ cards, direction = 'up', duration = 30 }: ParallaxColu
   );
 };
 
+// --- Main Component ---
+
 const WhoIsBamForShortlistCard = () => {
+  const containerRef = useRef(null);
+  const isInView = useInView(containerRef, { amount: 0.5 });
+
   const shortlist = [
     {
       role: 'Singer*',
-      name: 'Sanjau Gupta',
+      cleanTitle: 'Singer',
+      name: 'Sanjay Gupta',
       badges: ['Singer', 'Songwriter'],
       location: 'Mumbai',
-      avatar: 'SG',
-      gradient: ['#7C3AED', '#EC4899'],
+      avatar: leadscroll1,
     },
     {
-      role: 'Lead Guitarist*',
+      role: 'Lead Guitar*',
+      cleanTitle: 'Lead Guitarist',
       name: 'Arjun Rao',
-      badges: ['Lead Guitarist'],
+      badges: ['Guitarist'],
       location: 'Mumbai',
-      avatar: 'AR',
-      gradient: ['#111827', '#6B7280'],
+      avatar: leadscroll2,
     },
     {
-      role: 'Stage and sound*',
+      role: 'Stage/Sound*',
+      cleanTitle: 'Stage and Lighting',
       name: 'Aarav Khanna',
-      badges: ['Stage & Sound', 'Lights'],
+      badges: ['Stage', 'Sound'],
       location: 'Mumbai',
-      avatar: 'AK',
-      gradient: ['#F97316', '#FACC15'],
+      avatar: leadscroll3,
     },
     {
-      role: 'Videographers*',
+      role: 'Video*',
+      cleanTitle: 'Videographer',
       name: 'Vikram Singh',
-      badges: ['Videographer'],
+      badges: ['Video'],
       location: 'Mumbai',
-      avatar: 'VS',
-      gradient: ['#6B7280', '#111827'],
+      avatar: leadscroll1,
     },
   ];
+
+  const [visibleCount, setVisibleCount] = useState(0);
+
+  useEffect(() => {
+    if (!isInView) return;
+
+    const interval = setInterval(() => {
+      setVisibleCount((prev) => {
+        if (prev >= shortlist.length) return 0;
+        return prev + 1;
+      });
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [shortlist.length, isInView]);
+
+  const activeTitles = useMemo(() => {
+    return shortlist.slice(0, visibleCount).map((item) => item.cleanTitle);
+  }, [visibleCount]);
+
   const column1 = [
-    { title: 'Stage and Lighting', image: vertical1, accentColor: '#6F5AAE' },
+    { title: 'Singer', image: vertical1, accentColor: '#6F5AAE' },
     { title: 'Theatre Actor', image: vertical2, accentColor: '#C57A3E' },
-    { title: 'Director', image: vertical3, accentColor: '#5A7BCB' },
+    { title: 'Videographer', image: vertical3, accentColor: '#5A7BCB' },
   ];
   const column2 = [
     { title: 'Choreographer', image: vertical4, accentColor: '#6A8B9E' },
     { title: 'Lead Guitarist', image: vertical5, accentColor: '#3C8E76' },
     { title: 'Stage and Lighting', image: vertical6, accentColor: '#6F5AAE' },
   ];
-  const column3 = [
-    { title: 'Stage and Lighting', image: vertical7, accentColor: '#6F5AAE' },
-    { title: 'Theatre Actor', image: vertical2, accentColor: '#C57A3E' },
-    { title: 'Director', image: vertical10, accentColor: '#5A7BCB' },
-  ];
 
   return (
-    <section className="flex min-h-screen w-screen shrink-0 flex-col bg-white pt-6 text-black sm:pt-12">
-      <div className="mx-auto flex w-full max-w-5xl flex-1 flex-col items-start justify-center">
-        <div className="w-full rounded-xl bg-black pt-5">
-          <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
-            <div className=" bg-[#1B1B1B] pt-3 sm:pt-4 pr-3 sm:pr-4 rounded-t-xl">
-              <div className="grid gap-3 sm:grid-cols-2">
-                <ParallaxColumn cards={column1} direction="up" duration={20} />
-                <ParallaxColumn cards={column2} direction="down" duration={20} />
+    <section className="relative flex min-h-screen w-screen items-center justify-center bg-white px-0 text-black sm:px-6 lg:px-8 pt-3">
+      <div
+        ref={containerRef}
+        // WIDTH CONSTRAINT: Restricted max-width on mobile (280px-340px)
+        className="flex w-full max-w-[330px] xs:max-w-[340px] sm:max-w-5xl flex-col items-start mx-auto"
+      >
+        <div className="w-full overflow-hidden rounded-lg sm:rounded-xl bg-black pt-2 sm:pt-5 h-[200px] xs:h-[280px] sm:h-[480px] lg:h-[550px]">
+          {/* Main Grid: Tight gaps */}
+          <div className="grid h-full gap-1 sm:gap-6 grid-cols-2 lg:grid-cols-[1.05fr_0.95fr]">
+            {/* Left Side: Parallax Images */}
+            <div className="rounded-t-lg sm:rounded-t-xl bg-[#1B1B1B] pr-1 pt-1 sm:pr-4 sm:pt-4">
+              <div className="grid h-full gap-1 sm:gap-3 grid-cols-2">
+                <ParallaxColumn
+                  cards={column1}
+                  direction="up"
+                  duration={25}
+                  likedTitles={activeTitles}
+                />
+                <ParallaxColumn
+                  cards={column2}
+                  direction="down"
+                  duration={25}
+                  likedTitles={activeTitles}
+                />
               </div>
             </div>
 
-            <div className="rounded-xl bg-[#121212] p-4 sm:p-6 relative">
-              <div className="-mx-4 -mt-4 mb-4 border-b border-white/10 px-4 pb-4 sm:-mx-6 sm:-mt-6 sm:px-6 pt-4">
-                <div className="flex items-center gap-2 justify-between">
-                  {/* BK image */}
-                  <span className="inline-flex h-9 w-9 items-center justify-center rounded-full ">
-                    <Image
-                      src={vertical10}
-                      alt="BK"
-                      className="h-10 w-10 object-contain rounded-[50%]"
-                    />
-                  </span>
-
-                  {/* BAM image */}
-                  <Image src={RedBam} alt="BAM" className="h-6 object-contain" />
+            {/* Right Side: The "Project" Interface */}
+            <div className="relative h-full w-full bg-[#121212] px-1.5 py-2 sm:px-6 sm:py-6 lg:rounded-tl-xl lg:px-8 pb-2">
+              {/* Header: User & Logo - Micro */}
+              <div className="flex items-center justify-between">
+                <div className="relative h-5 w-5 sm:h-10 sm:w-10 overflow-hidden rounded-full border border-white/20">
+                  <Image src={vertical10} alt="BK" fill className="object-cover" />
                 </div>
+                <Image src={RedBam} alt="BAM" className="h-2 w-auto sm:h-5 object-contain" />
               </div>
+              <hr className="mt-1.5 sm:mt-4 border-white/10 w-full" />
 
-              <div className="pl-10 bg-[#1A1A1A] p-5 pr-0 absolute right-0 bottom-5">
-                <div className="text-white">
-                  <p className="text-sm font-normal">Project</p>
-                  <p className="text-[10px] text-white/60">Add members to your project</p>
+              {/* Inner Project List Container */}
+              <div
+                className="bg-[#1A1A1A] py-1.5 pl-1.5 pr-0.5 sm:py-4 sm:pl-4 sm:pr-0 rounded-tl-lg sm:rounded-tl-xl z-10 
+                              relative w-full mt-1.5 sm:mt-6 
+                              lg:absolute lg:right-0 lg:w-[350px] xl:w-[400px] lg:mt-4 lg:mb-6"
+              >
+                <div className="mb-1 sm:mb-2">
+                  <h3 className="font-normal text-white text-[8px] sm:text-sm">Project</h3>
+                  <p className="text-[6px] sm:text-[10px] text-white/50 leading-none">
+                    Add members
+                  </p>
                 </div>
 
-                <div className="mt-5 space-y-5 text-white/80">
-                  {shortlist.map((person) => (
-                    <div
-                      key={person.role}
-                      className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-6"
-                    >
-                      <p className="text-xs font-semibold uppercase tracking-wide text-white/70 sm:w-36">
-                        {person.role}
-                      </p>
-                      <div className="flex w-full items-center justify-between rounded-2xl border border-white/10 bg-[#2A2A2A] px-3 py-2 sm:max-w-[300px]">
-                        <div className="flex items-center gap-3">
-                          <span
-                            className="inline-flex h-10 w-10 items-center justify-center rounded-full text-[11px] font-semibold text-white"
-                            style={{
-                              backgroundImage: `linear-gradient(135deg, ${person.gradient[0]}, ${person.gradient[1]})`,
-                            }}
-                          >
-                            {person.avatar}
-                          </span>
-                          <div>
-                            <div className="flex items-center gap-2">
-                              <p className="text-xs font-semibold text-white">{person.name}</p>
-                              <span className="inline-flex h-2 w-2 rounded-full bg-[#4C7DFF]" />
-                            </div>
-                            <div className="mt-1 flex flex-wrap gap-1">
-                              {person.badges.map((badge) => (
-                                <span
-                                  key={badge}
-                                  className="rounded-full bg-black/50 px-2 py-0.5 text-[9px] font-semibold text-white/80"
-                                >
-                                  {badge}
+                {/* LIST ITEMS */}
+                <div className="flex flex-col gap-1 sm:gap-2">
+                  {shortlist.map((person, index) => {
+                    const isFilled = index < visibleCount;
+
+                    return (
+                      <div key={person.role} className="flex justify-between gap-1 sm:gap-4 mt-0">
+                        {/* Role Label - Micro text */}
+                        <p className="w-8 xs:w-10 sm:w-24 shrink-0 text-[6px] sm:text-[10px] font-medium text-white/80 mt-1 sm:mt-3 leading-tight break-words">
+                          {person.role}
+                        </p>
+
+                        {/* Animated Container Row: Height 30px (mobile) */}
+                        <div className="relative flex h-[30px] xs:h-[48px] sm:h-[76px] w-full items-center rounded-l-md sm:rounded-l-xl border-l border-t border-b border-white/10 bg-transparent pl-1 sm:pl-3 pr-0">
+                          <AnimatePresence mode="popLayout" initial={false}>
+                            {isFilled ? (
+                              <motion.div
+                                key="filled"
+                                layout
+                                initial={{ opacity: 0, scale: 0.9, x: -2, filter: 'blur(2px)' }}
+                                animate={{ opacity: 1, scale: 1, x: 0, filter: 'blur(0px)' }}
+                                exit={{ opacity: 0, scale: 0.9, filter: 'blur(2px)' }}
+                                transition={{ duration: 0.4, ease: 'backOut' }}
+                                className="flex w-full items-center justify-between"
+                              >
+                                <div className="flex items-center gap-1 sm:gap-2 rounded-md sm:rounded-xl bg-[#444649] py-0.5 px-1 sm:px-1.5 pr-2 sm:pr-6 shadow-sm w-full">
+                                  {/* Avatar - Mobile 14px */}
+                                  <div className="relative flex h-3.5 w-3.5 xs:h-6 xs:w-6 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-full shadow-inner overflow-hidden">
+                                    <Image
+                                      src={person.avatar}
+                                      alt={person.name ?? 'Avatar'}
+                                      fill
+                                      className="object-cover rounded-full"
+                                      sizes="35px"
+                                      priority
+                                    />
+                                  </div>
+
+                                  {/* Text Content */}
+                                  <div className="flex flex-col min-w-0 w-full relative">
+                                    <div className="flex items-center gap-0.5 sm:gap-1">
+                                      <span className="text-[6px] xs:text-[8px] sm:text-[10px] font-semibold text-white truncate max-w-[40px] xs:max-w-none">
+                                        {person.name}
+                                      </span>
+                                      <svg
+                                        className="h-2 w-2 sm:h-3.5 sm:w-3.5 text-[#3B82F6] shrink-0"
+                                        viewBox="0 0 24 24"
+                                        fill="currentColor"
+                                      >
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                                      </svg>
+                                    </div>
+
+                                    {/* Badges */}
+                                    <div className="flex gap-0.5 overflow-hidden">
+                                      {person.badges.map((badge, i) => (
+                                        <span
+                                          key={badge}
+                                          className={`rounded-full bg-[#1E1E1E] px-1 sm:px-1.5 py-[0px] text-[4px] xs:text-[7px] sm:text-[9px] font-medium text-white whitespace-nowrap ${
+                                            i > 0 ? 'hidden xs:inline-block' : ''
+                                          }`}
+                                        >
+                                          {badge}
+                                        </span>
+                                      ))}
+                                    </div>
+                                  </div>
+                                </div>
+                              </motion.div>
+                            ) : (
+                              <motion.div
+                                key="empty"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0, transition: { duration: 0.2 } }}
+                                className="absolute inset-0 flex flex-col items-center justify-center w-full"
+                              >
+                                <PiCubeTransparentThin className="text-xs sm:text-2xl text-white/20" />
+                                <span className="text-[5px] sm:text-[9px] text-white/30 text-center px-1 leading-none">
+                                  Select
                                 </span>
-                              ))}
-                            </div>
-                          </div>
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
                         </div>
-                        <p className="text-[10px] text-white/50">{person.location}</p>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <p className="mt-6 max-w-3xl text-[14px] font-bold leading-snug sm:mt-8 sm:text-[28px] xl:text-[36px]">
-          <span className="font-extrabold">Shortlist with confidence,</span> connect quickly, &amp;
-          build your reliable crew in no time.
+        <p className="mt-2 sm:mt-3 text-left bam-connect-copy">
+          <span className="font-extrabold">Shortlist with confidence,</span>{' '}
+          <br className="sm:hidden" />
+          connect quickly, &amp; build your reliable crew in no time.
         </p>
       </div>
     </section>

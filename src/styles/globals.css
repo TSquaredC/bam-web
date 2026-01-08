@@ -78,6 +78,29 @@ body {
     @apply pt-14 md:pt-20 lg:pt-24;
   }
 
+  .bam-connect-copy {
+    max-width: 30rem;
+    text-align: left;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .bam-connect-copy {
+      font-size: 28px;
+      line-height: 2.5rem;
+      max-width: 45rem;
+    }
+  }
+
+  @media (min-width: 1600px) {
+    .bam-connect-copy {
+      font-size: 36px;
+      max-width: 60rem;
+    }
+  }
+
   .padding-bottom {
     @apply pb-14 md:pb-20 lg:pb-24;
   }
@@ -185,120 +208,6 @@ body {
     font-weight: 800;
     line-height: 132%;
     letter-spacing: -0.96px;
-  }
-
-/* --- CONFIGURATION --- */
-:root {
-  --anim-duration: 4.2s;
-}
-
-/* 1. TYPING EFFECT */
-.typing-text {
-  overflow: hidden;
-  border-right: 2px solid black;
-  white-space: nowrap;
-  animation: typing 0.8s steps(20, end) forwards, blink-caret 0.75s step-end infinite;
-  display: inline-block;
-  width: 0;
-}
-
-@keyframes typing {
-  from { width: 0; }
-  to { width: 100%; border-color: transparent; }
-}
-
-@keyframes blink-caret {
-  from, to { border-color: transparent; }
-  50% { border-color: black; }
-}
-
-/* 2. CURSOR MOVEMENT */
-.discover-cursor {
-  animation: cursor-flow var(--anim-duration) cubic-bezier(0.4, 0, 0.2, 1) infinite;
-  transform-origin: top left;
-}
-
-@keyframes cursor-flow {
-  0% {
-    opacity: 0;
-    transform: translate(var(--cursor-start-x), var(--cursor-start-y)) scale(0.6);
-  }
-  15% { opacity: 1; }
-  35% { transform: translate(0, 0) scale(1); } /* Arrive at button */
-  45% { transform: translate(0, 0) scale(0.85); } /* Click Press */
-  50% { transform: translate(0, 0) scale(1); } /* Click Release */
-  60% { opacity: 1; }
-  80% { opacity: 0; transform: translate(0, 50px) scale(1); } /* Move away */
-  100% { opacity: 0; }
-}
-
-/* 3. SEARCH BUTTON CLICK RESPONSE */
-.discover-search {
-  animation: search-click var(--anim-duration) ease-in-out infinite;
-}
-
-.discover-searchgroup {
-  animation: searchbar-resize var(--anim-duration) ease-in-out infinite;
-  transform-origin: center;
-  transition: transform 0.6s ease;
-}
-
-.discover-searchgroup--condensed {
-  animation: none;
-  transform: scale(0.8);
-}
-
-.discover-searchbar {
-  transform-origin: center;
-}
-
-@keyframes search-click {
-  0%, 48% { transform: scale(1); box-shadow: none; }
-  56% { transform: scale(0.92); box-shadow: 0 0 0 6px rgba(189, 3, 8, 0.25); }
-  59%, 100% { transform: scale(1); box-shadow: none; }
-}
-
-/* 4. SEARCH BAR SLIDE UP */
-.search-container {
-  animation: search-container-move var(--anim-duration) ease-in-out infinite;
-}
-
-.search-container--fixed {
-  animation: none;
-  transform: translateY(-230px);
-  transition: transform 0.6s ease;
-}
-
-@keyframes search-container-move {
-  0%, 48% { transform: translateY(0); }
-  55%, 90% { transform: translateY(-230px); } /* Move up to make room for cards */
-  100% { transform: translateY(0); }
-}
-
-@keyframes searchbar-resize {
-  0%, 48% { transform: scale(1); }
-  55%, 90% { transform: scale(0.85); }
-  100% { transform: scale(1); }
-}
-
-/* 5. RESULTS GRID APPEARANCE */
-.results-grid {
-  animation: results-appear var(--anim-duration) ease-in-out infinite;
-}
-
-  @keyframes results-appear {
-    0%, 60% { 
-      opacity: 0; 
-      transform: translateY(100px); /* Start below */
-    }
-  66%, 90% { 
-    opacity: 1; 
-    transform: translateY(0); /* Slide up into view */
-  }
-    100% { 
-      opacity: 0; 
-      transform: translateY(100px); 
-    }
   }
 
   .bam-heart {

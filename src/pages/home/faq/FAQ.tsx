@@ -1,4 +1,5 @@
-import { IoMicOutline, IoSend } from 'react-icons/io5';
+import { IoSend } from 'react-icons/io5';
+import { LuMic } from 'react-icons/lu';
 
 const faqChips = [
   'Who can use Bam?',
@@ -41,7 +42,7 @@ const FAQ = () => {
                 type="button"
                 className="flex h-10 w-10 items-center justify-center  text-white sm:h-11 sm:w-11"
               >
-                <IoMicOutline className="h-5 w-5 sm:h-8 sm:w-8" />
+                <LuMic className="h-5 w-5 sm:h-8 sm:w-8" />
               </button>
               <button
                 type="button"

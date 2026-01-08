@@ -1,10 +1,12 @@
 .scrollReveal {
-  margin: 20px 0;
+  margin: 20px auto;
+  max-width: 85%;
+  text-align: center;
 }
 
 .scrollRevealText {
   font-size: clamp(1.6rem, 4vw, 3rem);
-  line-height: 1.5;
+  letter-spacing: -1.75px;
   font-weight: 600;
 }
 

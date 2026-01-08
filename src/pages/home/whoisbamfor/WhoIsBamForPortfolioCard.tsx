@@ -8,7 +8,7 @@ const WhoIsBamForPortfolioCard = () => {
   return (
     <section className="relative flex min-h-screen w-screen shrink-0 flex-col justify-center bg-[#BD0308] px-4 text-white sm:px-6 lg:px-8">
       <div className="mx-auto w-full max-w-5xl overflow-hidden rounded-xl">
-        <div className="flex h-[200px] gap-2 sm:h-[360px] sm:gap-4 md:h-[460px] lg:h-[520px]">
+        <div className="flex h-[200px] gap-2 sm:h-[360px] sm:gap-4 md:h-[460px] lg:h-[560px]">
           {/* Left Side - Main Profile Card */}
           <div className="relative flex h-full min-w-0 flex-[0.8] flex-col overflow-hidden rounded-md sm:rounded-xl xl:min-w-[280px]">
             {/* Background Image */}
@@ -23,7 +23,7 @@ const WhoIsBamForPortfolioCard = () => {
             {/* Bottom Glass Card */}
             <div className="relative mt-auto flex flex-col items-center justify-center rounded-t-xl bg-black/50 px-1 py-2 sm:px-5 sm:py-5 text-center backdrop-blur-xl sm:px-8 sm:py-8">
               <p className="text-xs font-extrabold text-white xl:text-[36px]">Laila Ramesh</p>
-              <p className="mt-1 text-[10px] text-white/70 xl:text-[18px] font-medium flex justify-center items-center gap-2 ">
+              <p className="mt-1 text-[8px] text-white/70 xl:text-[18px] font-medium flex justify-center items-center gap-1 md:gap-2 ">
                 <BiSolidBadgeCheck className="text-[#7A9CF3]" />
                 Cinematographer | <span className="font-bold">9.5/10</span>
               </p>
@@ -32,8 +32,8 @@ const WhoIsBamForPortfolioCard = () => {
                 <button className="rounded-md sm:rounded-xl bg-[#444649] px-2 py-1 sm:py-3 text-[8px] font-bold text-white backdrop-blur sm:px-10 sm:text-base">
                   Follow
                 </button>
-                <button className="rounded-md sm:rounded-xl bg-[#BD0308] px-2 py-1 sm:py-3 text-[8px] font-bold text-white sm:px-10 sm:text-base flex items-center gap-2">
-                  <FiPlus size={18} />
+                <button className="rounded-md sm:rounded-xl bg-[#BD0308] px-2 py-1 sm:py-3 text-[8px] font-bold text-white sm:px-10 text-xs sm:text-base flex items-center gap-2">
+                  <FiPlus size={15} />
                   Interest
                 </button>
               </div>

@@ -4,7 +4,6 @@ import { IoPlaySharp } from 'react-icons/io5';
 import { IoIosSearch } from 'react-icons/io';
 import { BiSolidVolumeMute } from 'react-icons/bi';
 import { LuMic } from 'react-icons/lu';
-
 import { leadscroll1, leadscroll2, leadscroll3 } from '../../../assets/images';
 
 // Placeholder for the image import if not available in this context

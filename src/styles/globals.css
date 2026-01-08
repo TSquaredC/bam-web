@@ -84,6 +84,7 @@ body {
     font-size: 14px;
     font-weight: 500;
     line-height: 1rem;
+    letter-spacing: -0.025em;
   }
 
   @media (min-width: 640px) {
@@ -203,11 +204,10 @@ body {
     text-edge: cap;
     -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: #000;
-    font-family: "Cabinet Grotesk Variable", sans-serif;
     font-style: normal;
     font-weight: 800;
-    line-height: 132%;
-    letter-spacing: -0.96px;
+    line-height: 34.277px; /* 137.108% */
+letter-spacing: -1.75px;
   }
 
   .bam-heart {

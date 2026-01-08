@@ -29,7 +29,7 @@ const ScrollReveal = ({
   containerClassName = '',
   textClassName = '',
   rotationEnd = '+=500%',
-  wordAnimationEnd = '+=65%',
+  wordAnimationEnd = '+=45%',
 }: ScrollRevealProps) => {
   const containerRef = useRef<HTMLHeadingElement | null>(null);
 

@@ -174,9 +174,9 @@ const WhoIsBamForShortlistCard = () => {
       <div
         ref={containerRef}
         // WIDTH CONSTRAINT: Restricted max-width on mobile (280px-340px)
-        className="flex w-full max-w-[330px] xs:max-w-[340px] sm:max-w-5xl flex-col items-start mx-auto"
+        className="flex w-full max-w-[350px] xs:max-w-[400px] sm:max-w-5xl flex-col items-start mx-auto"
       >
-        <div className="w-full overflow-hidden rounded-lg sm:rounded-xl bg-black pt-2 sm:pt-5 h-[200px] xs:h-[280px] sm:h-[480px] lg:h-[550px]">
+        <div className="w-full overflow-hidden rounded-lg sm:rounded-xl bg-black pt-2 sm:pt-5 h-[200px] sm:h-[370px] lg:h-[550px]">
           {/* Main Grid: Tight gaps */}
           <div className="grid h-full gap-1 sm:gap-6 grid-cols-2 lg:grid-cols-[1.05fr_0.95fr]">
             {/* Left Side: Parallax Images */}
@@ -206,7 +206,6 @@ const WhoIsBamForShortlistCard = () => {
                 </div>
                 <Image src={RedBam} alt="BAM" className="h-2 w-auto sm:h-5 object-contain" />
               </div>
-              <hr className="mt-1.5 sm:mt-4 border-white/10 w-full" />
 
               {/* Inner Project List Container */}
               <div
@@ -216,8 +215,8 @@ const WhoIsBamForShortlistCard = () => {
               >
                 <div className="mb-1 sm:mb-2">
                   <h3 className="font-normal text-white text-[8px] sm:text-sm">Project</h3>
-                  <p className="text-[6px] sm:text-[10px] text-white/50 leading-none">
-                    Add members
+                  <p className="text-[6px] sm:text-[10px] text-white/50 leading-none mt-0.5 sm:mt-1">
+                    Add members to your project{' '}
                   </p>
                 </div>
 
@@ -234,7 +233,7 @@ const WhoIsBamForShortlistCard = () => {
                         </p>
 
                         {/* Animated Container Row: Height 30px (mobile) */}
-                        <div className="relative flex h-[30px] xs:h-[48px] sm:h-[76px] w-full items-center rounded-l-md sm:rounded-l-xl border-l border-t border-b border-white/10 bg-transparent pl-1 sm:pl-3 pr-0">
+                        <div className="relative flex h-[30px] xs:h-[48px] sm:h-[76px] w-full items-center rounded-l-md sm:rounded-l-xl border border-white/10 bg-transparent pl-1 sm:pl-3 pr-0">
                           <AnimatePresence mode="popLayout" initial={false}>
                             {isFilled ? (
                               <motion.div

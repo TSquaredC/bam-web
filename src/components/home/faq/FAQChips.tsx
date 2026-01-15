@@ -7,7 +7,7 @@ type FAQChipsProps = {
 const FAQChips = ({ chips, onSelect, disabled = false }: FAQChipsProps) => {
   return (
     <div className="sm:mt-10 flex flex-wrap justify-center gap-3 text-xs font-medium text-[#A1A2A3] sm:text-sm">
-      {chips.map((chip) => (
+      {chips?.map((chip) => (
         <button
           type="button"
           key={chip}

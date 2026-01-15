@@ -29,9 +29,10 @@ export const createKaiChat = async (
       headers: { Accept: "text/event-stream" },
     });
     return res;
-  } catch (err: any) {
+  } catch (err: unknown) {
     if (axios.isCancel(err)) {
-      console.warn("Request canceled:", err.message);
+      const message = err instanceof Error ? err.message : String(err);
+      console.warn("Request canceled:", message);
     } else {
       console.error("Error in createKaiChat:", err);
     }

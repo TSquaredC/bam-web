@@ -1,5 +1,5 @@
 import type { RefObject } from 'react';
-import { ChatMessage } from '../types';
+import type { ChatMessage } from '@/types/faq-chat';
 
 type ChatWindowProps = {
   messages: ChatMessage[];

@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { createKaiChat } from '@/services/api';
-import ChatInput from './components/ChatInput';
-import ChatWindow from './components/ChatWindow';
-import FAQChips from './components/FAQChips';
-import FAQHeader from './components/FAQHeader';
-import { ChatMessage } from './types';
+import ChatInput from '@/components/home/faq/ChatInput';
+import ChatWindow from '@/components/home/faq/ChatWindow';
+import FAQChips from '@/components/home/faq/FAQChips';
+import FAQHeader from '@/components/home/faq/FAQHeader';
+import type { ChatMessage } from '@/types/faq-chat';
 
 const faqChips = [
   'Who can use Bam?',
@@ -19,6 +19,30 @@ const pickText = (o: Record<string, unknown>) =>
   (o.response || o.answer || o.text || o.delta || o.message || o.content || '') as string;
 
 const pickChatId = (o: Record<string, unknown>) => (o.chat_id || o.chatId || o.id || '') as string;
+
+type SpeechRecognitionEventLike = {
+  resultIndex: number;
+  results: ArrayLike<ArrayLike<{ transcript: string }>>;
+};
+
+type SpeechRecognitionLike = {
+  continuous: boolean;
+  interimResults: boolean;
+  lang: string;
+  onresult: ((event: SpeechRecognitionEventLike) => void) | null;
+  onstart: (() => void) | null;
+  onend: (() => void) | null;
+  onerror: (() => void) | null;
+  start: () => void;
+  stop: () => void;
+};
+
+type SpeechRecognitionConstructor = new () => SpeechRecognitionLike;
+
+type WindowWithSpeechRecognition = Window & {
+  SpeechRecognition?: SpeechRecognitionConstructor;
+  webkitSpeechRecognition?: SpeechRecognitionConstructor;
+};
 
 const extractKaiResponse = (payload: unknown) => {
   let text = '';
@@ -70,26 +94,26 @@ const FAQ = () => {
 
   const typingRef = useRef<number | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const recognitionRef = useRef<any>(null);
+  const recognitionRef = useRef<SpeechRecognitionLike | null>(null);
 
   useEffect(() => {
-    const SpeechRecognition =
-      (window as any)?.SpeechRecognition || (window as any)?.webkitSpeechRecognition;
+    const { SpeechRecognition, webkitSpeechRecognition } = window as WindowWithSpeechRecognition;
+    const SpeechRecognitionCtor = SpeechRecognition || webkitSpeechRecognition;
 
-    if (!SpeechRecognition) {
+    if (!SpeechRecognitionCtor) {
       setIsMicSupported(false);
       return;
     }
 
-    const recognition = new SpeechRecognition();
+    const recognition = new SpeechRecognitionCtor();
     recognition.continuous = false;
     recognition.interimResults = true;
     recognition.lang = 'en-US';
 
-    recognition.onresult = (e: any) => {
+    recognition.onresult = (e) => {
       const transcript = Array.from(e.results)
         .slice(e.resultIndex)
-        .map((r: any) => r[0].transcript)
+        .map((r) => r[0].transcript)
         .join('');
       setQuery(transcript.trim());
     };
@@ -141,7 +165,11 @@ const FAQ = () => {
 
   const handleMicToggle = () => {
     if (!recognitionRef.current || isSending || isTyping) return;
-    isListening ? recognitionRef.current.stop() : recognitionRef.current.start();
+    if (isListening) {
+      recognitionRef.current.stop();
+    } else {
+      recognitionRef.current.start();
+    }
     setError(null);
   };
 

@@ -17,7 +17,7 @@ const steps = [
   {
     title: 'Make It Happen!',
     description: 'Collaborate. Create. Ship.',
-    offset: 'md:ml-[70vw]',
+    offset: 'md:ml-[65vw]',
     accent: true,
   },
 ];

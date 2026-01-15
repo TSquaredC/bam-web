@@ -7,10 +7,10 @@ import { FiPlus } from 'react-icons/fi';
 const WhoIsBamForPortfolioCard = () => {
   return (
     <section className="relative flex min-h-screen w-screen shrink-0 flex-col justify-center bg-[#BD0308] px-4 text-white sm:px-6 lg:px-8">
-      <div className="mx-auto w-full max-w-5xl overflow-hidden rounded-xl">
+      <div className="mx-auto w-full max-w-5xl overflow-hidden rounded-lg sm:rounded-xl">
         <div className="flex h-[200px] gap-2 sm:h-[360px] sm:gap-4 md:h-[460px] lg:h-[560px]">
           {/* Left Side - Main Profile Card */}
-          <div className="relative flex h-full min-w-0 flex-[0.8] flex-col overflow-hidden rounded-md sm:rounded-xl xl:min-w-[280px]">
+          <div className="relative flex h-full min-w-0 flex-[0.8] flex-col overflow-hidden rounded-lg sm:rounded-xl xl:min-w-[280px]">
             {/* Background Image */}
             <Image
               src={whoisbam1}
@@ -44,28 +44,28 @@ const WhoIsBamForPortfolioCard = () => {
           <div className="flex h-full min-w-0 flex-1 flex-col gap-2 sm:gap-4 sm:min-w-[280px]">
             {/* Top Row */}
             <div className="flex flex-1 gap-2 sm:gap-4">
-              <div className="flex-1 overflow-hidden rounded-md sm:rounded-xl">
+              <div className="flex-1 overflow-hidden rounded-lg sm:rounded-xl">
                 <Image
                   src={whoisbam2}
                   alt="Portfolio scene"
                   className="h-full w-full object-cover"
                 />
               </div>
-              <div className="flex-1 overflow-hidden rounded-md sm:rounded-xl">
+              <div className="flex-1 overflow-hidden rounded-lg sm:rounded-xl">
                 <Image src={whoisbam3} alt="Studio moment" className="h-full w-full object-cover" />
               </div>
             </div>
 
             {/* Bottom Row */}
             <div className="flex flex-1 gap-2 sm:gap-4">
-              <div className="flex-[0.5] overflow-hidden rounded-md sm:rounded-xl">
+              <div className="flex-[0.5] overflow-hidden rounded-lg sm:rounded-xl">
                 <Image
                   src={whoisbam4}
                   alt="Creative detail"
                   className="h-full w-full object-cover"
                 />
               </div>
-              <div className="flex-[1.5] overflow-hidden rounded-md sm:rounded-xl">
+              <div className="flex-[1.5] overflow-hidden rounded-lg sm:rounded-xl">
                 <Image
                   src={whoisbam5}
                   alt="Behind the scenes"

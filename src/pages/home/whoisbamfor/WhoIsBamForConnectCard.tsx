@@ -100,7 +100,7 @@ const WhoIsBamForConnectCard = () => {
 
   return (
     <section className="relative flex min-h-screen w-screen shrink-0 flex-col justify-center bg-[#BD0308] px-4 text-white sm:px-6 lg:px-8">
-      <div className="mx-auto flex w-full max-w-5xl flex-col overflow-hidden rounded-lg border-[8px] border-black bg-black sm:rounded-xl sm:border-[12px] lg:border-[18px] h-[185px] sm:h-[360px] xl:h-[520px]">
+      <div className="mx-auto flex w-full max-w-5xl flex-col overflow-hidden rounded-lg border-[8px] border-black bg-black sm:rounded-xl sm:border-[12px] lg:border-[18px] mt-4 h-[200px] sm:h-[360px] xl:h-[535px]">
         <div className="bg-black">
           <div className="grid w-[calc(100%+60px)] -ml-[40px] grid-cols-5 gap-0.5 sm:w-[calc(100%+100px)] sm:-ml-[50px] sm:gap-1 lg:w-[calc(100%+200px)] lg:-ml-[100px]">
             <ParallaxColumn cards={column1} direction="up" duration={20} />

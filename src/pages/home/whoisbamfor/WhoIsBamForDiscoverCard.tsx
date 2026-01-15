@@ -382,7 +382,7 @@ const WhoIsBamForDiscoverCard = () => {
             {/* Main Card Container */}
             <div
               ref={cardRef}
-              className="discover-card relative h-[200px] w-full overflow-hidden rounded-xl bg-black sm:h-[360px] md:h-[460px] lg:h-[575px]"
+              className="discover-card relative h-[200px] w-full overflow-hidden rounded-lg sm:rounded-xl bg-black sm:h-[360px] md:h-[460px] lg:h-[575px]"
             >
               {/* Search Bar Container */}
               <div

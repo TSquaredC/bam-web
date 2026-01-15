@@ -82,7 +82,7 @@ const Footer = () => {
             </p>
             <button
               type="button"
-              className="inline-flex items-center justify-center rounded-[10px] bg-[#1E1E1E] px-5 py-2 text-sm font-semibold text-white "
+              className="inline-flex items-center justify-center rounded-[10px] bg-[#1E1E1E] px-5 py-2 text-sm font-semibold text-white cursor-pointer"
             >
               Join the Waitlist
             </button>

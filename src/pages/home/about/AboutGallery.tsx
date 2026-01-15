@@ -210,7 +210,7 @@ const AboutGallery = () => {
           {galleryData[activeIndex].description}
         </p>
 
-        <button className="px-4 py-1.5 md:px-8 md:py-3 border border-white text-white uppercase text-[10px] md:text-xs font-bold tracking-widest hover:bg-white hover:text-[#BD0308] transition-colors rounded-full">
+        <button className="px-4 py-1.5 md:px-8 md:py-3 border border-white text-white uppercase text-[10px] md:text-xs font-bold tracking-widest hover:bg-white hover:text-[#BD0308] transition-colors rounded-full cursor-pointer">
           View more
         </button>
       </div>

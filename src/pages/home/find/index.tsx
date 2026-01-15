@@ -24,7 +24,7 @@ const HomePage = () => {
           </div>
 
           <div className="flex items-center justify-center gap-4 lg:justify-start">
-            <button className="find-hero-cta">Join Waitlist !!</button>
+            <button className="find-hero-cta cursor-pointer">Join Waitlist !!</button>
           </div>
         </div>
       </div>

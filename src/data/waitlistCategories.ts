@@ -40,7 +40,6 @@ export const waitlistCategoryGroups: WaitlistCategoryGroup[] = [
       'Sound Designers',
       'Foley Artists',
       'Editors, Mix/Master Engineers',
-      'Voiceover Artists',
     ],
     useCases: 'Albums, ads, podcasts, background score, jingles.',
   },

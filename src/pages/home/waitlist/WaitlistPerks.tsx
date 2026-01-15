@@ -1,13 +1,26 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { waitlistBg, waitlistsmall } from '../../../assets/images';
-import { waitlistCategoryGroups } from "../../../data/waitlistCategories";
+import { waitlistCategoryGroups } from '../../../data/waitlistCategories';
 
 const waitlistCategoryItems = waitlistCategoryGroups.flatMap((group) => group.items);
 
 const WaitlistPerks = () => {
   const [activeTab, setActiveTab] = useState('talent');
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+  const [categoryQuery, setCategoryQuery] = useState('');
+  const [categoryValue, setCategoryValue] = useState('');
+
+  const normalizedCategoryQuery = categoryQuery.trim().toLowerCase();
+  const filteredCategoryItems = waitlistCategoryItems.filter((item) =>
+    item.toLowerCase().includes(normalizedCategoryQuery),
+  );
+
+  const handleCategorySelect = (value: string) => {
+    setCategoryValue(value);
+    setCategoryQuery(value);
+    setIsCategoryOpen(false);
+  };
 
   return (
     <section className="dotted-bg relative py-20 text-white sm:py-28 ">
@@ -43,7 +56,7 @@ const WaitlistPerks = () => {
               <button
                 type="button"
                 onClick={() => setActiveTab('talent')}
-                className={`px-4 py-2 text-xs font-semibold tracking-[0.1em] transition ${
+                className={`cursor-pointer px-4 py-2 text-xs font-semibold tracking-[0.1em] transition ${
                   activeTab === 'talent'
                     ? 'bg-[#BD0308] text-white'
                     : 'bg-[#1a1a1a] text-white/70 hover:text-white'
@@ -54,7 +67,7 @@ const WaitlistPerks = () => {
               <button
                 type="button"
                 onClick={() => setActiveTab('users')}
-                className={`px-4 py-2 text-xs font-semibold tracking-[0.1em] transition ${
+                className={`cursor-pointer px-4 py-2 text-xs font-semibold tracking-[0.1em] transition ${
                   activeTab === 'users'
                     ? 'bg-[#BD0308] text-white'
                     : 'bg-[#1a1a1a] text-white/70 hover:text-white'
@@ -95,29 +108,52 @@ const WaitlistPerks = () => {
 
                 <label className="block text-base text-white">
                   Category
-                  <div className=" flex items-center border-b border-white pb-2">
-                    <select
-                      className="w-full appearance-none bg-transparent text-sm text-white outline-none"
-                      defaultValue=""
-                      onFocus={() => setIsCategoryOpen(true)}
-                      onBlur={() => setIsCategoryOpen(false)}
-                      onChange={() => setIsCategoryOpen(false)}
-                    >
-                      {waitlistCategoryItems.map((item) => (
-                        <option key={item} value={item}>
-                          {item}
-                        </option>
-                      ))}
-                    </select>
-                    <svg
-                      aria-hidden
-                      viewBox="0 0 24 24"
-                      className={`ml-2 h-5 w-5 text-white transition-transform ${
-                        isCategoryOpen ? 'rotate-180' : ''
-                      }`}
-                    >
-                      <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" strokeWidth="2" />
-                    </svg>
+                  <div className="relative border-b border-white pb-2">
+                    <div className="flex items-center">
+                      <input
+                        type="text"
+                        placeholder="Type to search categories"
+                        value={categoryQuery}
+                        onFocus={() => setIsCategoryOpen(true)}
+                        onBlur={() => setIsCategoryOpen(false)}
+                        onChange={(event) => {
+                          setCategoryQuery(event.target.value);
+                          setIsCategoryOpen(true);
+                        }}
+                        className="w-full bg-transparent text-sm text-white outline-none placeholder:text-white/40"
+                      />
+                      <svg
+                        aria-hidden
+                        viewBox="0 0 24 24"
+                        className={`ml-2 h-5 w-5 text-white transition-transform ${
+                          isCategoryOpen ? 'rotate-180' : ''
+                        }`}
+                      >
+                        <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" strokeWidth="2" />
+                      </svg>
+                    </div>
+                    <input type="hidden" name="category" value={categoryValue} />
+                    {isCategoryOpen ? (
+                      <div className="absolute left-0 right-0 top-full z-20 mt-2 max-h-56 overflow-y-auto rounded-lg border border-white/10 bg-[#111111] text-sm text-white shadow-[0_18px_40px_rgba(0,0,0,0.45)]">
+                        {filteredCategoryItems.length === 0 ? (
+                          <div className="px-3 py-2 text-white/60">No matches</div>
+                        ) : (
+                          filteredCategoryItems.map((item) => (
+                            <button
+                              key={item}
+                              type="button"
+                              onMouseDown={(event) => {
+                                event.preventDefault();
+                                handleCategorySelect(item);
+                              }}
+                              className="block w-full px-3 py-2 text-left transition hover:bg-white/10"
+                            >
+                              {item}
+                            </button>
+                          ))
+                        )}
+                      </div>
+                    ) : null}
                   </div>
                 </label>
 
@@ -131,7 +167,7 @@ const WaitlistPerks = () => {
 
                 <button
                   type="button"
-                  className="mt-2 w-full rounded-xl border-2 border-white bg-white px-6 py-3 text-sm font-semibold text-black shadow-[0_6px_0_rgba(189,3,8,0.9)] transition"
+                  className="mt-2 w-full rounded-xl border-2 border-white bg-white px-6 py-3 text-sm font-semibold text-black shadow-[0_6px_0_rgba(189,3,8,0.9)] transition cursor-pointer"
                 >
                   Join Waitlist !!
                 </button>

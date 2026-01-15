@@ -171,7 +171,6 @@ const FAQ = () => {
       setIsSending(false);
     }
   };
-
   return (
     <section className="py-20 text-white sm:py-28 mt-40 sm:mt-60 xl:mt-80">
       <div className="section-width 2xl:max-w-screen-2xl md:w-11/12 mx-auto max-md:mx-3">
@@ -179,26 +178,28 @@ const FAQ = () => {
           <div className="bg-[#111111] px-2 pb-4 sm:px-12 sm:pb-16 rounded-xl sm:rounded-3xl">
             <FAQHeader title="FAQ's" subtitle="Got Questions? We've Got Answers." />
 
-            {messages.length === 0 && <FAQChips chips={faqChips} onSelect={handleSend} />}
+            <div className="h-80 sm:h-96 flex flex-col justify-end gap-4 overflow-hidden">
+              {' '}
+              {messages.length === 0 && <FAQChips chips={faqChips} onSelect={handleSend} />}
+              <div className="bg-[#0f0f0f] px-3 py-4 sm:px-6 sm:py-4 rounded-md sm:rounded-xl flex flex- min-h-0 flex-col">
+                <ChatWindow
+                  messages={messages}
+                  isSending={isSending}
+                  placeholderMessage={placeholderMessage}
+                  containerRef={containerRef}
+                />
 
-            <div className="bg-[#0f0f0f] px-3 py-4 sm:px-6 sm:py-6 rounded-md sm:rounded-xl">
-              <ChatWindow
-                messages={messages}
-                isSending={isSending}
-                placeholderMessage={placeholderMessage}
-                containerRef={containerRef}
-              />
-
-              <ChatInput
-                query={query}
-                onQueryChange={setQuery}
-                isSending={isSending}
-                isTyping={isTyping}
-                isListening={isListening}
-                isMicSupported={isMicSupported}
-                onMicToggle={handleMicToggle}
-                onSend={handleSend}
-              />
+                <ChatInput
+                  query={query}
+                  onQueryChange={setQuery}
+                  isSending={isSending}
+                  isTyping={isTyping}
+                  isListening={isListening}
+                  isMicSupported={isMicSupported}
+                  onMicToggle={handleMicToggle}
+                  onSend={handleSend}
+                />
+              </div>
             </div>
           </div>
         </div>

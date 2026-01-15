@@ -73,6 +73,7 @@ const WhoIsBamFor = () => {
   const [scrollLength, setScrollLength] = useState(0);
   const [viewportHeight, setViewportHeight] = useState(0);
   const [titleProgress, setTitleProgress] = useState(0);
+  const [floatingProgress, setFloatingProgress] = useState(0);
 
   useEffect(() => {
     const update = () => {
@@ -110,6 +111,10 @@ const WhoIsBamFor = () => {
       );
       const translate = -scrollLength * progress;
       trackRef.current.style.transform = `translateX(${translate}px)`;
+      const panelCount = trackRef.current.children.length;
+      const panels = Math.max(panelCount - 1, 1);
+      const firstPanelProgress = Math.min(Math.max(progress * panels, 0), 1);
+      setFloatingProgress(firstPanelProgress);
       const viewportWidth = Math.max(window.innerWidth, 1);
       let baseTitleProgress = 0;
       if (aboutSection) {
@@ -145,7 +150,10 @@ const WhoIsBamFor = () => {
     >
       <div className="sticky top-0 overflow-hidden">
         <div ref={trackRef} className="flex w-max items-stretch">
-          <WhoIsBamForTitleCard scrollProgress={titleProgress} />
+          <WhoIsBamForTitleCard
+            scrollProgress={titleProgress}
+            floatingProgress={floatingProgress}
+          />
           <WhoIsBamForDoersCard />
           <WhoIsBamForPortfolioCard />
           <WhoIsBamForConnectCard />

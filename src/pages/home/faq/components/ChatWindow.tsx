@@ -12,7 +12,7 @@ const ChatWindow = ({ messages, isSending, placeholderMessage, containerRef }: C
   return (
     <div
       ref={containerRef}
-      className="max-h-80 overflow-y-auto pr-2 text-sm sm:text-base scroll-smooth"
+      className="flex-1 min-h-0 overflow-y-auto pr-2 text-sm sm:text-base scroll-smooth"
     >
       {messages.length === 0 ? (
         <p className="text-[#A1A2A3]">{placeholderMessage}</p>

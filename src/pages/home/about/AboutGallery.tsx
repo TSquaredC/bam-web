@@ -48,8 +48,10 @@ const galleryData = [
 const AboutGallery = () => {
   const [activeIndex, setActiveIndex] = useState(2);
   const [isInView, setIsInView] = useState(false);
+  const [isStickyRed, setIsStickyRed] = useState(false);
   const [windowWidth, setWindowWidth] = useState(0);
   const sectionRef = useRef(null);
+  const lastScrollYRef = useRef(0);
 
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
@@ -59,7 +61,12 @@ const AboutGallery = () => {
   }, []);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(([entry]) => setIsInView(entry.isIntersecting), {
+    const observer = new IntersectionObserver(([entry]) => {
+      setIsInView(entry.isIntersecting);
+      if (entry.isIntersecting) {
+        setIsStickyRed(true);
+      }
+    }, {
       threshold: 0.3,
     });
     if (sectionRef.current) observer.observe(sectionRef.current);
@@ -67,6 +74,22 @@ const AboutGallery = () => {
       if (sectionRef.current) observer.unobserve(sectionRef.current);
     };
   }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentY = window.scrollY;
+      const direction = currentY > lastScrollYRef.current ? 'down' : 'up';
+      lastScrollYRef.current = currentY;
+
+      if (direction === 'up' && !isInView) {
+        setIsStickyRed(false);
+      }
+    };
+
+    lastScrollYRef.current = window.scrollY;
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [isInView]);
 
   const handleNext = () => {
     setActiveIndex((prev) => (prev + 1) % galleryData.length);
@@ -150,7 +173,7 @@ const AboutGallery = () => {
     <div
       ref={sectionRef}
       className={`relative w-full overflow-hidden py-10 md:py-20 min-h-[600px] md:min-h-[800px] transition-colors duration-1000 ease-in-out flex flex-col items-center justify-center ${
-        isInView ? 'bg-[#BD0308]' : ''
+        isStickyRed ? 'bg-[#BD0308]' : ''
       }`}
     >
       <div

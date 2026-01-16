@@ -12,6 +12,10 @@ const WhoIsBamForTitleCard = ({
   const clampedProgress = Math.min(Math.max(scrollProgress, 0), 1);
   const clampedFloatingProgress = Math.min(Math.max(floatingProgress ?? clampedProgress, 0), 1);
   const scaleProgress = clampedFloatingProgress * 0.3;
+  const scaleProgressmain =
+    typeof window !== 'undefined' && window.innerWidth <= 768
+      ? clampedProgress * 1
+      : clampedProgress * 3;
 
   return (
     <div style={{ height: '100vh' }}>
@@ -126,9 +130,9 @@ const WhoIsBamForTitleCard = ({
 
         {/* Main white card - Responsive positioning and sizing */}
         <div
-          className="relative z-10 flex flex-col justify-between rounded-xl bg-white p-5 text-black w-[55vw] max-w-[300px] h-[200px] xs:w-[35vw] xs:max-w-[200px] xs:h-[200px] sm:w-[650px] sm:h-[280px] sm:p-7 md:max-w-[500px] md:h-[400px] lg:max-w-[650px] transition-all duration-[1500ms] ease-out"
+          className="relative z-10 flex flex-col justify-between rounded-xl bg-white p-5 text-black w-[55vw] max-w-[300px] h-[160px] xs:w-[35vw] xs:max-w-[200px] xs:h-[200px] sm:w-[650px] sm:h-[280px] sm:p-7 md:max-w-[500px] md:h-[400px] lg:max-w-[650px] transition-all duration-[1500ms] ease-out"
           style={{
-            transform: `scale(${1 + scaleProgress * 2.5})`,
+            transform: `scale(${1 + scaleProgressmain * 2})`,
             transformOrigin: 'center',
           }}
         >

@@ -73,7 +73,7 @@ const WhoIsBamFor = () => {
   const [scrollLength, setScrollLength] = useState(0);
   const [viewportHeight, setViewportHeight] = useState(0);
   const [titleProgress, setTitleProgress] = useState(0);
-  const [floatingProgress, setFloatingProgress] = useState(0);
+  const [floatingProgress, setFloatingProgress] = useState<number | undefined>(undefined);
 
   useEffect(() => {
     const update = () => {
@@ -93,46 +93,33 @@ const WhoIsBamFor = () => {
   useEffect(() => {
     const onScroll = () => {
       if (!trackRef.current || !sectionRef.current) return;
-      const aboutSection = document.getElementById('about-gallery');
       const section = sectionRef.current;
       const rect = section.getBoundingClientRect();
       const viewportHeight = window.innerHeight || 1;
-      const visibleHeight =
-        Math.min(rect.bottom, viewportHeight) - Math.max(rect.top, 0);
-      const visibleRatio = Math.min(Math.max(visibleHeight / viewportHeight, 0), 1);
       const currentScrollY = window.scrollY;
       const isScrollingDown = currentScrollY > lastScrollYRef.current;
       lastScrollYRef.current = currentScrollY;
       const start = rect.top + currentScrollY;
       const end = start + section.offsetHeight - window.innerHeight;
-      const progress = Math.min(
-        Math.max((currentScrollY - start) / Math.max(end - start, 1), 0),
-        1,
-      );
+      const earlyStartOffset = viewportHeight * 0.6;
+      const adjustedStart = start - earlyStartOffset;
+      const rawProgress = (currentScrollY - start) / Math.max(end - start, 1);
+      const titleRawProgress =
+        (currentScrollY - adjustedStart) / Math.max(end - adjustedStart, 1);
+      const progress = Math.min(Math.max(rawProgress, 0), 1);
       const translate = -scrollLength * progress;
       trackRef.current.style.transform = `translateX(${translate}px)`;
       const panelCount = trackRef.current.children.length;
       const panels = Math.max(panelCount - 1, 1);
       const firstPanelProgress = Math.min(Math.max(progress * panels, 0), 1);
-      setFloatingProgress(firstPanelProgress);
-      const viewportWidth = Math.max(window.innerWidth, 1);
-      let baseTitleProgress = 0;
-      if (aboutSection) {
-        const aboutRect = aboutSection.getBoundingClientRect();
-        const aboutBottomAbs = aboutRect.bottom + currentScrollY;
-        const whoTopAbs = rect.top + currentScrollY;
-        const startScroll = aboutBottomAbs - viewportHeight;
-        const endScroll = whoTopAbs;
-        const range = Math.max(endScroll - startScroll, 1);
-        baseTitleProgress = Math.min(
-          Math.max((currentScrollY - startScroll) / range, 0),
-          1,
-        );
-      }
-      if (!hasEnteredFromAboveRef.current && isScrollingDown && visibleRatio >= 0.1) {
+      const isStickyActive = rect.top <= 0 && rect.bottom >= viewportHeight;
+      setFloatingProgress(isStickyActive ? firstPanelProgress : undefined);
+      if (!hasEnteredFromAboveRef.current && isScrollingDown && currentScrollY >= adjustedStart) {
         hasEnteredFromAboveRef.current = true;
       }
-      const titleProgress = hasEnteredFromAboveRef.current ? baseTitleProgress : 0;
+      const titleProgress = hasEnteredFromAboveRef.current
+        ? Math.min(Math.max(titleRawProgress, 0), 1)
+        : 0;
       section.style.setProperty('--title-progress', titleProgress.toFixed(3));
       setTitleProgress(titleProgress);
     };

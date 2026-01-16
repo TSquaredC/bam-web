@@ -206,10 +206,10 @@ const FAQ = () => {
           <div className="bg-[#111111] px-2 pb-4 sm:px-12 sm:pb-16 rounded-xl sm:rounded-3xl">
             <FAQHeader title="FAQ's" subtitle="Got Questions? We've Got Answers." />
 
-            <div className="h-80 sm:h-96 flex flex-col justify-end gap-4 overflow-hidden">
+            <div className="h-80 sm:h-96 bg-[#0f0f0f] flex flex-col justify-end gap-4 overflow-hidden">
               {' '}
               {messages.length === 0 && <FAQChips chips={faqChips} onSelect={handleSend} />}
-              <div className="bg-[#0f0f0f] px-3 py-4 sm:px-6 sm:py-4 rounded-md sm:rounded-xl flex flex- min-h-0 flex-col">
+              <div className=" px-3 py-4 sm:px-6 sm:py-4 rounded-md sm:rounded-xl flex flex- min-h-0 flex-col">
                 <ChatWindow
                   messages={messages}
                   isSending={isSending}

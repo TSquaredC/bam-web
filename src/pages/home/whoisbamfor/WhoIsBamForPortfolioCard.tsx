@@ -29,10 +29,10 @@ const WhoIsBamForPortfolioCard = () => {
               </p>
 
               <div className="mt-2 xl:mt-4 flex items-center justify-center gap-3 sm:mt-5">
-                <button className="rounded-md sm:rounded-xl bg-[#444649] px-2 py-1 sm:py-3 text-[8px] font-bold text-white backdrop-blur sm:px-10 sm:text-base">
+                <button className="rounded-md sm:rounded-xl bg-[#444649] px-2 py-1 sm:py-3 text-[8px] font-bold text-white backdrop-blur sm:px-10 sm:text-base cursor-pointer">
                   Follow
                 </button>
-                <button className="rounded-md sm:rounded-xl bg-[#BD0308] px-2 py-1 sm:py-3 text-[8px] font-bold text-white sm:px-10 text-xs sm:text-base flex items-center gap-2">
+                <button className="rounded-md sm:rounded-xl bg-[#BD0308] px-2 py-1 sm:py-3 text-[8px] font-bold text-white sm:px-10 text-xs sm:text-base flex items-center gap-2 cursor-pointer">
                   <FiPlus size={15} />
                   Interest
                 </button>
